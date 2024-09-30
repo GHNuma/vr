@@ -429,7 +429,9 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 
 function LoadingAnimation() {
     const { active, progress, errors, item, loaded, total } = useProgress()
-    console.log(progress)
+    useEffect(() => {
+        console.log(active, progress)
+    }, [active, progress])
     return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
         <Loader type="ball-clip-rotate-multiple"/>
         <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
