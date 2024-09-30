@@ -1,0 +1,35 @@
+$primary-color: #ade746;
+@import 'loaders.css/src/animations/ball-clip-rotate-multiple.scss';
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.loader{
+  transform: scale(2);
+}
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+  position: relative;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.flex-center{
+  align-items: center;
+  justify-content: center;
+}
+

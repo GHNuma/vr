@@ -1,8 +1,10 @@
-import React, {useRef, useEffect, useState, useMemo} from 'react';
+import React, {useRef, useEffect, useState, useMemo, Suspense} from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { PointerLockControls, useGLTF} from '@react-three/drei';
+import {Html, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
 import {Physics, useBox} from '@react-three/cannon';
 import * as THREE from 'three';
+import nipplejs from 'nipplejs';
+import Loader from 'react-loaders'
 
 type Keys = {
     forward: boolean;
@@ -11,7 +13,8 @@ type Keys = {
     right: boolean;
 };
 
-function CameraController() {
+
+function CameraController({isMobile}) {
     const controlsRef = useRef<PointerLockControls>(null!);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isPointerLocked, setIsPointerLocked] = useState(false);
@@ -21,7 +24,6 @@ function CameraController() {
         left: false,
         right: false,
     }).current;
-
     const { camera } = useThree();
     const [ref, api] = useBox(() => ({
         mass: 1,
@@ -35,20 +37,19 @@ function CameraController() {
     });
 
     useFrame(() => {
-        const speed =2; // Скорость передвижения
+        const speed =isMobile ? 1 : 2 ; // Скорость передвижения
         const direction = new THREE.Vector3();
         const right = new THREE.Vector3();
 
-        // Направление движения камеры
         camera.getWorldDirection(direction);
-        direction.y = 0; // Убираем изменение высоты при движении
+        direction.y = 0;
         direction.normalize();
 
-        // Определяем "право" относительно направления камеры
         right.crossVectors(camera.up, direction);
 
         let velocityX = 0;
         let velocityZ = 0;
+
 
         // Обрабатываем нажатие клавиш
         if (keys.forward) {
@@ -68,89 +69,225 @@ function CameraController() {
             velocityZ -= right.z * speed;
         }
 
-        // Устанавливаем новую скорость, сохраняем высоту y
         api.velocity.set(velocityX, 0, velocityZ);
     });
 
+    let initialTouchX: number | null = null;
+    let initialTouchY: number | null = null;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-        switch (event.key) {
-            case 'w':
-            case 'W':
-            case 'Ц':
-            case 'ц':
-            case 'ArrowUp':
-                keys.forward = true;
-                break;
-            case 's':
-            case 'S':
-            case 'Ы':
-            case 'ы':
-            case 'ArrowDown':
-                keys.backward = true;
-                break;
-            case 'a':
-            case 'A':
-            case 'Ф':
-            case 'ф':
-            case 'ArrowLeft':
-                keys.left = true;
-                break;
-            case 'd':
-            case 'D':
-            case 'В':
-            case 'в':
-            case 'ArrowRight':
-                keys.right = true;
-                break;
-            default:
-                break;
-        }
-    };
+    let yaw = 0;
+    let pitch = 0;
 
-    const handleKeyUp = (event: KeyboardEvent) => {
-        switch (event.key) {
-            case 'w':
-            case 'Ц':
-            case 'W':
-            case 'ц':
-            case 'ArrowUp':
+    let isJoystickActive = false;
+    let isTouchActive = false;
+    useEffect(() => {
+        if (!isMobile) {
+            const handleKeyDown = (event: KeyboardEvent) => {
+                switch (event.key) {
+                    case 'w':
+                    case 'ArrowUp':
+                        keys.forward = true;
+                        break;
+                    case 's':
+                    case 'ArrowDown':
+                        keys.backward = true;
+                        break;
+                    case 'a':
+                    case 'ArrowLeft':
+                        keys.left = true;
+                        break;
+                    case 'd':
+                    case 'ArrowRight':
+                        keys.right = true;
+                        break;
+                }
+            };
+
+            const handleKeyUp = (event: KeyboardEvent) => {
+                switch (event.key) {
+                    case 'w':
+                    case 'ArrowUp':
+                        keys.forward = false;
+                        break;
+                    case 's':
+                    case 'ArrowDown':
+                        keys.backward = false;
+                        break;
+                    case 'a':
+                    case 'ArrowLeft':
+                        keys.left = false;
+                        break;
+                    case 'd':
+                    case 'ArrowRight':
+                        keys.right = false;
+                        break;
+                }
+            };
+
+            window.addEventListener('keydown', handleKeyDown);
+            window.addEventListener('keyup', handleKeyUp);
+
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+                window.removeEventListener('keyup', handleKeyUp);
+            };
+        } else {
+            const joystickLeft = nipplejs.create({
+                zone: document.getElementById('joystick-left')!,
+                mode: 'static',
+                position: { left: '50px', bottom: '50px' },
+                color: 'blue',
+            });
+
+            const joystickRight = nipplejs.create({
+                zone: document.getElementById('joystick-right')!,
+                mode: 'static',
+                position: { right: '50px', bottom: '50px' },
+                color: 'red',
+            });
+
+            joystickLeft.on('move', (evt, data) => {
+                if (!isTouchActive){
+                    isJoystickActive = true;
+                    const forward = data.vector.y > 0;
+                    const backward = data.vector.y < 0;
+                    const left = data.vector.x < 0;
+                    const right = data.vector.x > 0;
+
+                    keys.forward = forward;
+                    keys.backward = backward;
+                    keys.left = left;
+                    keys.right = right;
+                }
+            });
+
+            joystickLeft.on('end', () => {
                 keys.forward = false;
-                break;
-            case 's':
-            case 'Ы':
-            case 'S':
-            case 'ы':
-            case 'ArrowDown':
                 keys.backward = false;
-                break;
-            case 'a':
-            case 'Ф':
-            case 'A':
-            case 'ф':
-            case 'ArrowLeft':
                 keys.left = false;
-                break;
-            case 'd':
-            case 'В':
-            case 'D':
-            case 'в':
-            case 'ArrowRight':
                 keys.right = false;
-                break;
-            default:
-                break;
+            });
+
+            const maxBodyRotationSpeed = 0.03;
+            const maxHeadTiltSpeed = 0.03;
+
+            let firstMove = true;
+
+            let joystickDeltaX = 0;
+            let joystickDeltaY = 0;
+
+
+            joystickRight.on('move', (evt, data) => {
+                joystickDeltaX = data.vector.x; // Влево (-1) или вправо (1)
+                joystickDeltaY = data.vector.y; // Вверх (1) или вниз (-1)
+
+                if (firstMove) {
+                    firstMove = false; // Устанавливаем флаг в false после первого движения
+                    return; // Не применяем движение
+                }
+            });
+
+            joystickRight.on('end', () => {
+                isJoystickActive = false;
+                joystickDeltaX = 0; // Остановка по оси X
+                joystickDeltaY = 0; // Остановка по оси Y
+            });
+
+            function updateCamera() {
+                if (!isTouchActive && joystickDeltaX !== 0 || joystickDeltaY !== 0) {
+                    isJoystickActive = true;
+                    yaw -= joystickDeltaX * maxBodyRotationSpeed;
+
+                    pitch += joystickDeltaY * maxHeadTiltSpeed;
+                    pitch = THREE.MathUtils.clamp(pitch, -Math.PI / 4, Math.PI / 4); // Ограничиваем наклон головы
+
+                    const euler = new THREE.Euler(pitch, yaw, 0, 'YXZ');
+
+                    camera.quaternion.setFromEuler(euler);
+
+                    const direction = new THREE.Vector3(0, 0, -1); // Направление вперед
+                    direction.applyQuaternion(camera.quaternion); // Применяем ориентацию камеры
+
+                    camera.position.add(direction.multiplyScalar(0.1)); // Перемещение вперед по направлению взгляда
+                    isJoystickActive = false;
+                }
+
+                requestAnimationFrame(updateCamera);
+            }
+
+            updateCamera();
+
+            return () => {
+                joystickLeft.destroy();
+                joystickRight.destroy();
+            };
         }
-    };
+    }, [isMobile]);
 
     useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('keyup', handleKeyUp);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('keyup', handleKeyUp);
-        };
-    }, []);
+        if (isMobile) {
+
+
+            const handleTouchStart = (event: TouchEvent) => {
+                if (!isJoystickActive && event.touches.length === 1) {
+                    // Включаем режим касания, если джойстик не активен
+                    isTouchActive = true;
+                    initialTouchX = event.touches[0].clientX;
+                    initialTouchY = event.touches[0].clientY;
+                }
+            };
+
+            const handleTouchMove = (event: TouchEvent) => {
+                if (!isJoystickActive && isTouchActive && initialTouchX !== null && initialTouchY !== null && event.touches.length === 1) {
+                    const deltaX = event.touches[0].clientX - initialTouchX;
+                    const deltaY = event.touches[0].clientY - initialTouchY;
+
+                    const sensitivity = 0.002; // чувствительность камеры
+
+                    yaw -= deltaX * sensitivity; // вращение по оси Y (влево/вправо)
+                    pitch -= deltaY * sensitivity; // наклон по оси X (вверх/вниз)
+
+                    // Ограничиваем наклон камеры по оси X (вверх-вниз)
+                    pitch = THREE.MathUtils.clamp(pitch, -Math.PI / 4, Math.PI / 4);
+
+                    // Устанавливаем кватернион камеры на основе значений yaw и pitch
+                    const euler = new THREE.Euler(pitch, yaw, 0, 'YXZ');
+                    camera.quaternion.setFromEuler(euler);
+
+                    // Вычисляем направление движения вперед с учетом новой ориентации камеры
+                    const direction = new THREE.Vector3(0, 0, -1);
+                    direction.applyQuaternion(camera.quaternion); // Применяем ориентацию камеры к направлению
+
+                    // Перемещение камеры вперед по направлению взгляда
+                    camera.position.add(direction.multiplyScalar(0.1));
+
+                    // Обновляем исходные координаты касания
+                    initialTouchX = event.touches[0].clientX;
+                    initialTouchY = event.touches[0].clientY;
+                }
+            };
+
+            const handleTouchEnd = () => {
+                isTouchActive = false;
+                initialTouchX = null;
+                initialTouchY = null;
+            };
+
+            // Добавляем обработчики событий для touch
+            window.addEventListener('touchstart', handleTouchStart);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchend', handleTouchEnd);
+
+            return () => {
+                // Удаляем обработчики событий при размонтировании
+                window.removeEventListener('touchstart', handleTouchStart);
+                window.removeEventListener('touchmove', handleTouchMove);
+                window.removeEventListener('touchend', handleTouchEnd);
+            };
+        }
+    }, [isMobile, camera]);
+
+
 
     useEffect(() => {
         const handleMouseDown = () => {
@@ -178,7 +315,7 @@ function CameraController() {
 
 
 
-    return <PointerLockControls ref={controlsRef} />;
+    return !isMobile ? <PointerLockControls ref={controlsRef} /> : null;
 }
 
 // function VisibleCollider({ position, size, rotation }) {
@@ -295,17 +432,15 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 
 function TechRoomModel() {
     const {scene}= useGLTF('/models/BI4.glb',true);
-    console.log('RENDER')
-    console.log(scene)
-    const memoizedScene = useMemo(() => scene, []);
-    return (
-        <group>
-            {memoizedScene?.children.map((child) => (
-                <group key={child.name}>
-                        return <StaticCollider object={child} />;
-                </group>
-            ))}
-        </group>
+    const clone = useMemo(() => scene.clone(), [scene])
+        return (
+            <group>
+                {clone?.children.map((child) => (
+                  <group key={child.name}>
+                          return <StaticCollider object={child} />;
+                  </group>
+                ))}
+            </group>
     );
 }
 
@@ -323,20 +458,57 @@ function TechRoomModel() {
 //     );
 // }
 
+function LoadingAnimation() {
+    const { active, progress, errors, item, loaded, total } = useProgress()
+    return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
+        <Loader type="ball-clip-rotate-multiple"/>
+        <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
+}
+
 function Scene() {
+
+    const [width, setWidth] = useState<number>(window.innerWidth);
+
+    function handleWindowSizeChange() {
+        setWidth(window.innerWidth);
+    }
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    }, []);
+
+    const isMobile = width <= 768;
     return (
-        <Canvas shadows camera={{fov: 75}} >
-            <ambientLight intensity={3.5}/>
-            <pointLight position={[0, 3, 2]}/>
-            <pointLight position={[0, 3, 0.7]}/>
-            <pointLight position={[1.7, 3, 2]}/>
-            <pointLight position={[1.7, 3, 0.7]}/>
-            <Physics gravity={[0,0,0]}>
-                <TechRoomModel/>
-                {/*<FloorCollider/>*/}
-                <CameraController/>
-            </Physics>
-        </Canvas>
+        <>
+            <Canvas shadows camera={{fov: 75}} >
+                <ambientLight intensity={3.5}/>
+                <pointLight position={[0, 3, 2]}/>
+                <pointLight position={[0, 3, 0.7]}/>
+                <pointLight position={[1.7, 3, 2]}/>
+                <pointLight position={[1.7, 3, 0.7]}/>
+                <Physics gravity={[0,0,0]}>
+                    <Suspense fallback={LoadingAnimation()}>
+                    <TechRoomModel/>
+                    </Suspense>
+                    {/*<FloorCollider/>*/}
+                    <CameraController isMobile={isMobile}/>
+                </Physics>
+            </Canvas>
+            {isMobile &&
+            <>
+                <div
+                    id="joystick-left"
+                    style={{ position: 'absolute', left: '50px', bottom: '50px', width: '150px', height: '150px' }}
+                />
+                <div
+                    id="joystick-right"
+                    style={{ position: 'absolute', right: '50px', bottom: '50px', width: '150px', height: '150px' }}
+                />
+            </>
+            }
+        </>
     );
 }
 
