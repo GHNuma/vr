@@ -427,8 +427,12 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
     // }
 }
 
-
-
+function LoadingAnimation() {
+    const { active, progress, errors, item, loaded, total } = useProgress()
+    return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
+        <Loader type="ball-clip-rotate-multiple"/>
+        <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
+}
 
 function TechRoomModel() {
     const {scene}= useGLTF('/models/BI4.glb',true);
@@ -442,27 +446,6 @@ function TechRoomModel() {
                 ))}
             </group>
     );
-}
-
-// function FloorCollider() {
-//     const [ref] = usePlane(() => ({
-//         rotation: [-Math.PI / 2, 0, 0],
-//         position: [0, 0, 0], // Позиция пола должна совпадать с твоей сценой
-//     }));
-//
-//     return (
-//         <mesh ref={ref} receiveShadow position={[0, -1, 0]}>
-//             <planeGeometry args={[10, 10]}/>
-//             <meshStandardMaterial color={'lightgrey'} />
-//         </mesh>
-//     );
-// }
-
-function LoadingAnimation() {
-    const { active, progress, errors, item, loaded, total } = useProgress()
-    return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
-        <Loader type="ball-clip-rotate-multiple"/>
-        <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
 }
 
 function Scene() {
