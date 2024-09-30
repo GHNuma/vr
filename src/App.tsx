@@ -429,9 +429,6 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 
 function LoadingAnimation() {
     const { active, progress, errors, item, loaded, total } = useProgress()
-    useEffect(() => {
-        console.log(active, progress)
-    }, [active, progress])
     return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
         <Loader type="ball-clip-rotate-multiple"/>
         <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
@@ -440,6 +437,7 @@ function LoadingAnimation() {
 function TechRoomModel() {
     const {scene}= useGLTF('/models/BI4.glb',true);
     const clone = useMemo(() => scene.clone(), [scene])
+    useGLTF.preload('/models/BI4.glb')
         return (
             <group>
                 {clone?.children.map((child) => (
