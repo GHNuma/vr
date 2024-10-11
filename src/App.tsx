@@ -488,7 +488,6 @@ function LoadingAnimation() {
 function TechRoomModel({ modelPath }) {
     const { scene } = useGLTF(modelPath || '/models/BI4.glb', true);
     const clone = useMemo(() => scene.clone(), [scene]);
-
     useGLTF.preload(modelPath);
 
     return (
@@ -513,8 +512,9 @@ function Scene() {
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
     }
-    useEffect(() => {
+    console.log(currentModel)
 
+    useEffect(() => {
         window.addEventListener('resize', handleWindowSizeChange);
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
@@ -532,24 +532,32 @@ function Scene() {
                 <pointLight position={[1.7, 3, 0.7]}/>
                 <Physics gravity={[0, 0, 0]}>
                     <Suspense fallback={LoadingAnimation()}>
-                        <TechRoomModel modelPath={'/models/BI4.glb'}/>
+                        <TechRoomModel modelPath={currentModel}/>
                     </Suspense>
                     {/*<FloorCollider/>*/}
                     <CameraController isMobile={isMobile}/>
                 </Physics>
             </Canvas>
-            {/*<div style={{position: 'absolute', height: "20px", width: "20px", bottom: '100px'}}>*/}
-            {/*    <button onClick={(e) => {*/}
-            {/*        e.stopPropagation()*/}
-            {/*        e.preventDefault()*/}
-            {/*        switchRoom('/models/BI4.glb')*/}
-            {/*    }}>Room 1</button>*/}
-            {/*    <button onClick={(e) => {*/}
-            {/*        e.stopPropagation()*/}
-            {/*        e.preventDefault()*/}
-            {/*        switchRoom('/models/BI5.glb')*/}
-            {/*    }}>Room 2</button>*/}
-            {/*</div>*/}
+            <div style={{position: 'absolute', height: "20px", width: "20px", bottom: '100px'}}>
+                <button onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    switchRoom('/models/BI4.glb')
+                }}>Room 1
+                </button>
+                <button onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    switchRoom('/models/BI6.glb')
+                }}>Room 2
+                </button>
+                <button onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    switchRoom('/models/BI7.glb')
+                }}>Room 3
+                </button>
+            </div>
             {isMobile &&
                 <>
                     <div
