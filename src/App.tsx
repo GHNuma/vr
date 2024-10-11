@@ -78,6 +78,8 @@ function CameraController({isMobile}) {
     let yaw = 0;
     let pitch = 0;
 
+    let arrowDeltaY=0
+    let arrowDeltaX=0
     let isJoystickActive = false;
     let isTouchActive = false;
     useEffect(() => {
@@ -85,20 +87,32 @@ function CameraController({isMobile}) {
             const handleKeyDown = (event: KeyboardEvent) => {
                 switch (event.key) {
                     case 'w':
-                    case 'ArrowUp':
+                    case 'ц':
                         keys.forward = true;
                         break;
                     case 's':
-                    case 'ArrowDown':
+                    case 'ы':
                         keys.backward = true;
                         break;
                     case 'a':
-                    case 'ArrowLeft':
+                    case 'ф':
                         keys.left = true;
                         break;
                     case 'd':
-                    case 'ArrowRight':
+                    case 'в':
                         keys.right = true;
+                        break;
+                    case 'ArrowUp':
+                        arrowDeltaY = 1;
+                        break;
+                    case 'ArrowDown':
+                        arrowDeltaY = -1;
+                        break;
+                    case 'ArrowLeft':
+                        arrowDeltaX = -1;
+                        break;
+                    case 'ArrowRight':
+                        arrowDeltaX = 1;
                         break;
                 }
             };
@@ -106,23 +120,59 @@ function CameraController({isMobile}) {
             const handleKeyUp = (event: KeyboardEvent) => {
                 switch (event.key) {
                     case 'w':
-                    case 'ArrowUp':
+                    case 'ц':
                         keys.forward = false;
                         break;
                     case 's':
-                    case 'ArrowDown':
+                    case 'ы':
                         keys.backward = false;
                         break;
                     case 'a':
-                    case 'ArrowLeft':
+                    case 'ф':
                         keys.left = false;
                         break;
                     case 'd':
-                    case 'ArrowRight':
+                    case 'в':
                         keys.right = false;
+                        break;
+                    case 'ArrowUp':
+                    case 'ArrowDown':
+                        arrowDeltaY = 0;
+                        break;
+                    case 'ArrowLeft':
+                    case 'ArrowRight':
+                        arrowDeltaX = 0;
                         break;
                 }
             };
+
+            // function updateCamera() {
+            //     if (arrowDeltaX !== 0 || arrowDeltaY !== 0) {
+            //         // Обновляем yaw и pitch
+            //         yaw -= arrowDeltaX * 0.03;
+            //         pitch += arrowDeltaY * 0.03;
+            //         pitch = THREE.MathUtils.clamp(pitch, -Math.PI / 4, Math.PI / 4); // Ограничиваем наклон головы
+            //
+            //         // Создаем новый Euler для обновления ориентации камеры
+            //         const euler = new THREE.Euler(pitch, yaw, 0, 'YXZ');
+            //         camera.quaternion.setFromEuler(euler); // Устанавливаем кватернион камеры
+            //
+            //         // Получаем вектор направления, куда смотрит камера
+            //         const direction = new THREE.Vector3(0, 0, -1); // Начальное направление вперед
+            //         direction.applyQuaternion(camera.quaternion); // Применяем кватернион к вектору направления
+            //
+            //         // Обновляем позицию камеры
+            //         camera.position.add(direction.multiplyScalar(0.1));// Перемещение вперед по направлению взгляда
+            //
+            //
+            //         yaw=0
+            //         pitch=0
+            //     }
+            //
+            //         requestAnimationFrame(updateCamera);
+            // }
+            //
+            // updateCamera();
 
             window.addEventListener('keydown', handleKeyDown);
             window.addEventListener('keyup', handleKeyUp);
@@ -293,21 +343,21 @@ function CameraController({isMobile}) {
         const handleMouseDown = () => {
             controlsRef.current?.lock();
         };
-        const handleMouseUp = () => {
-            controlsRef.current?.unlock();
-        };
+        // const handleMouseUp = () => {
+        //     controlsRef.current?.unlock();
+        // };
 
         const handlePointerLockChange = () => {
             setIsPointerLocked(document.pointerLockElement === document.body);
         };
 
         window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mouseup', handleMouseUp);
+        // window.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('pointerlockchange', handlePointerLockChange);
 
         return () => {
             window.removeEventListener('mousedown', handleMouseDown);
-            window.removeEventListener('mouseup', handleMouseUp);
+            // window.removeEventListener('mouseup', handleMouseUp);
             document.removeEventListener('pointerlockchange', handlePointerLockChange);
         };
     }, []);
@@ -417,12 +467,12 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
         // Рекурсивная обработка детей объекта
         return obj.children.map((child, i) => (
             <group key={i}>
-                <React.Fragment >{addColliders(child)}</React.Fragment>
+                {addColliders(child)}
             </group>
         ));
     };
     // if(object.name!=='Cube006'){
-        return <group>{addColliders(object)}</group>;
+        return addColliders(object)
 
     // }
 }
@@ -434,29 +484,37 @@ function LoadingAnimation() {
         <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
 }
 
-function TechRoomModel() {
-    const {scene}= useGLTF('/models/BI4.glb',true);
-    const clone = useMemo(() => scene.clone(), [scene])
-    useGLTF.preload('/models/BI4.glb')
-        return (
-            <group>
-                {clone?.children.map((child) => (
-                  <group key={child.name}>
-                          return <StaticCollider object={child} />;
-                  </group>
-                ))}
-            </group>
+
+function TechRoomModel({ modelPath }) {
+    const { scene } = useGLTF(modelPath || '/models/BI4.glb', true);
+    const clone = useMemo(() => scene.clone(), [scene]);
+
+    useGLTF.preload(modelPath);
+
+    return (
+        <group>
+            {clone?.children.map((child) => (
+                <group key={child.name}>
+                    <StaticCollider object={child} />
+                </group>
+            ))}
+        </group>
     );
 }
 
 function Scene() {
 
     const [width, setWidth] = useState<number>(window.innerWidth);
+    const [currentModel, setCurrentModel] = useState('/models/BI4.glb');
 
+    const switchRoom = (newModelPath) => {
+        setCurrentModel(newModelPath);
+    };
     function handleWindowSizeChange() {
         setWidth(window.innerWidth);
     }
     useEffect(() => {
+
         window.addEventListener('resize', handleWindowSizeChange);
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
@@ -465,41 +523,54 @@ function Scene() {
 
     const isMobile = width <= 768;
     return (
-        <>
-            <Canvas shadows camera={{fov: 75}} >
+        <div style={{height: '100%', width: '100%'}}>
+            <Canvas shadows camera={{fov: 75}}>
                 <ambientLight intensity={3.5}/>
                 <pointLight position={[0, 3, 2]}/>
                 <pointLight position={[0, 3, 0.7]}/>
                 <pointLight position={[1.7, 3, 2]}/>
                 <pointLight position={[1.7, 3, 0.7]}/>
-                <Physics gravity={[0,0,0]}>
+                <Physics gravity={[0, 0, 0]}>
                     <Suspense fallback={LoadingAnimation()}>
-                    <TechRoomModel/>
+                        <TechRoomModel modelPath={'/models/BI4.glb'}/>
                     </Suspense>
                     {/*<FloorCollider/>*/}
                     <CameraController isMobile={isMobile}/>
                 </Physics>
             </Canvas>
+            {/*<div style={{position: 'absolute', height: "20px", width: "20px", bottom: '100px'}}>*/}
+            {/*    <button onClick={(e) => {*/}
+            {/*        e.stopPropagation()*/}
+            {/*        e.preventDefault()*/}
+            {/*        switchRoom('/models/BI4.glb')*/}
+            {/*    }}>Room 1</button>*/}
+            {/*    <button onClick={(e) => {*/}
+            {/*        e.stopPropagation()*/}
+            {/*        e.preventDefault()*/}
+            {/*        switchRoom('/models/BI5.glb')*/}
+            {/*    }}>Room 2</button>*/}
+            {/*</div>*/}
             {isMobile &&
-            <>
-                <div
-                    id="joystick-left"
-                    style={{ position: 'absolute', left: '50px', bottom: '50px', width: '150px', height: '150px' }}
-                />
-                <div
-                    id="joystick-right"
-                    style={{ position: 'absolute', right: '50px', bottom: '50px', width: '150px', height: '150px' }}
-                />
-            </>
+                <>
+                    <div
+                        id="joystick-left"
+                        style={{position: 'absolute', left: '50px', bottom: '50px', width: '150px', height: '150px'}}
+                    />
+                    <div
+                        id="joystick-right"
+                        style={{position: 'absolute', right: '50px', bottom: '50px', width: '150px', height: '150px'}}
+                    />
+                </>
             }
-        </>
+        </div>
     );
 }
 
 function App() {
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <Scene />
+        <div style={{width: '100vw', height: '100vh', position: 'relative'}}>
+        <Scene/>
+
         </div>
     );
 }
