@@ -508,7 +508,12 @@ function TechRoomModel({ modelPath }) {
 }
 
 function Scene() {
-
+    enum RoomClass {
+        premium='PREMIUM',
+        business='BUSINESS',
+        comfort='COMFORT',
+        standard='STANDARD'
+    }
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
