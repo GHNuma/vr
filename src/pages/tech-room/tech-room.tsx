@@ -1,6 +1,6 @@
 import {useRef, useEffect, useState, useMemo, Suspense, FC} from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import {Html, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
+import {Html, Loader, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
 import {Physics, useBox} from '@react-three/cannon';
 import * as THREE from 'three';
 import nipplejs from 'nipplejs';
@@ -486,7 +486,7 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 function LoadingAnimation() {
     const { loaded } = useProgress()
     return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
-        {!loaded && <TextedLoader/>}
+        {!loaded && <Loader/>}
     </Html>
 }
 
