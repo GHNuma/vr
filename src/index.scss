@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 $primary-color: #ade746;
 @import 'loaders.css/src/animations/ball-clip-rotate-multiple.scss';
 
