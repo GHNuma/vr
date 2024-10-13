@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import {glsl} from "three/src/nodes/code/CodeNode";
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(),glsl()],
   server: {
     watch: {
       usePolling: true,
@@ -14,4 +15,5 @@ export default defineConfig({
     },
   },
   publicDir: 'public',
+  assetsInclude: ['**/*.glb']
 })

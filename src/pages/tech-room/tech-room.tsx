@@ -5,8 +5,9 @@ import {Physics, useBox} from '@react-three/cannon';
 import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
-import Loader from 'react-loaders'
-// import business from '/models/BUSINESS.glb?url'
+import Loader from 'react-loaders';
+import business from '/models/BUSINESS.glb';
+console.log('BUSINESS:',business)
 
 type Keys = {
     forward: boolean;
@@ -488,6 +489,7 @@ function LoadingAnimation() {
 
 
 function TechRoomModel({ modelPath }) {
+    const [ready,setReady]=useState(false)
     const { scene } = useGLTF(modelPath, true);
     const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
@@ -518,7 +520,6 @@ function Scene() {
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
     const [currentModel, setCurrentModel] = useState('');
-    console.log(currentModel)
 
     // const switchRoom = (newModelPath) => {
     //     setCurrentModel(newModelPath);
