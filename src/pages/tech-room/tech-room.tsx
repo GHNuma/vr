@@ -1,11 +1,11 @@
 import {useRef, useEffect, useState, useMemo, Suspense, FC} from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import {Html, Loader, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
+import {Html, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
 import {Physics, useBox} from '@react-three/cannon';
 import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
-import TextedLoader from "../../components/loader.tsx";
+import Loader from 'react-loaders'
 enum RoomClass {
     premium='PREMIUM',
 business='BUSINESS',
@@ -484,10 +484,10 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 }
 
 function LoadingAnimation() {
-    const { loaded } = useProgress()
+    const { loaded,progress } = useProgress()
     return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
-        {!loaded && <Loader/>}
-    </Html>
+        <Loader type="ball-clip-rotate-multiple"/>
+        <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
 }
 
 
@@ -537,7 +537,7 @@ function Scene() {
                 <pointLight position={[1.7, 3, 2]}/>
                 <pointLight position={[1.7, 3, 0.7]}/>
                 <Physics gravity={[0, 0, 0]}>
-                    <Suspense fallback={LoadingAnimation()}>
+                    <Suspense fallback={<LoadingAnimation/>}>
                         <TechRoomModel modelPath={currentModel}/>
                     </Suspense>
                     {/*<FloorCollider/>*/}
