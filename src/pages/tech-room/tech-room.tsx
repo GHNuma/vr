@@ -7,12 +7,7 @@ import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
 import Loader from 'react-loaders'
 // import business from '/models/BUSINESS.glb?url'
-enum RoomClass {
-    premium='PREMIUM',
-business='BUSINESS',
-comfort='COMFORT',
-standard='STANDARD'
-}
+
 type Keys = {
     forward: boolean;
     backward: boolean;
@@ -513,6 +508,7 @@ function TechRoomModel({ modelPath }) {
 }
 
 function Scene() {
+
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
@@ -586,7 +582,6 @@ const TechRoom: FC<any> = (any) => {
     return (
         <div style={{width: '100vw', height: '100vh', position: 'relative'}}>
         <Scene/>
-
     </div>
 );
 }
