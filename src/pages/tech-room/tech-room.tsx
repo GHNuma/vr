@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
 import Loader from 'react-loaders'
+
 enum RoomClass {
     premium='PREMIUM',
 business='BUSINESS',
@@ -492,9 +493,13 @@ function LoadingAnimation() {
 
 
 function TechRoomModel({ modelPath }) {
-    const { scene } = useGLTF(modelPath , true);
+    const { scene } = useGLTF(modelPath, true);
     const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
+
+    useEffect(() => {
+        console.log('Model loaded:', modelPath);
+    }, [modelPath]);
 
     return (
         <group>
@@ -506,6 +511,7 @@ function TechRoomModel({ modelPath }) {
         </group>
     );
 }
+
 function Scene() {
     const {room_name}=useParams()
     const navigate= useNavigate()
