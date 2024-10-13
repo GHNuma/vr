@@ -516,7 +516,7 @@ function Scene() {
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
-    const [currentModel, setCurrentModel] = useState(`/models/${RoomClass[room_name]}.glb?url`);
+    const [currentModel, setCurrentModel] = useState('');
     console.log(currentModel)
 
     // const switchRoom = (newModelPath) => {
@@ -527,6 +527,7 @@ function Scene() {
     }
 
     useEffect(() => {
+        setCurrentModel(`/models/${RoomClass[room_name]}.glb`)
         window.addEventListener('resize', handleWindowSizeChange);
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
