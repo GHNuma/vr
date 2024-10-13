@@ -508,12 +508,12 @@ function TechRoomModel({ modelPath }) {
 }
 
 function Scene() {
-    enum RoomClass {
-        premium='PREMIUM',
-        business='BUSINESS',
-        comfort='COMFORT',
-        standard='STANDARD'
-    }
+    // enum RoomClass {
+    //     premium='PREMIUM',
+    //     business='BUSINESS',
+    //     comfort='COMFORT',
+    //     standard='STANDARD'
+    // }
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
@@ -528,7 +528,17 @@ function Scene() {
     }
 
     useEffect(() => {
-        setCurrentModel(`/models/${RoomClass[room_name]}.glb`)
+        if(room_name==='premium'){
+            setCurrentModel(`/models/PREMIUM.glb`)
+        } else if(room_name==='business'){
+            setCurrentModel(`/models/BUSINESS.glb`)
+
+        } else if(room_name==='comfort'){
+            setCurrentModel(`/models/COMFORT.glb`)
+
+        } else if(room_name==='standard'){
+            setCurrentModel(`/models/STANDARD.glb`)
+        }
         window.addEventListener('resize', handleWindowSizeChange);
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
