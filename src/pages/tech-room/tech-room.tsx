@@ -624,7 +624,9 @@ function Scene() {
         }
     }, [room_name]);
 
+
     const isMobile = width <= 768;
+
     return (
         <div style={{height: '100%', width: '100%'}}>
             <Canvas shadows camera={{fov: 75}} >
@@ -643,9 +645,15 @@ function Scene() {
                 </Physics>
 
             </Canvas>
-            {progress===100 && <div
-                className={'fixed p-1 top-5 left-5 bg-white bg-opacity-70 flex justify-center items-center rounded-md border border-b-gray-100 cursor-pointer'}
+            {!active && <div
+                className={`fixed ${isMobile ?'p-3' : 'p-1'} top-5 left-5 bg-white bg-opacity-70 flex justify-center items-center rounded-md border border-b-gray-100 cursor-pointer`}
                 onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    document.exitPointerLock();
+                    navigate('/')
+                }}
+                onTouchEndCapture={(e)=>{
                     e.preventDefault()
                     e.stopPropagation()
                     document.exitPointerLock();
@@ -657,15 +665,18 @@ function Scene() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
                 </svg>
             </div>}
-            {isMobile && progress===100 &&
+
+            {isMobile  &&
                 <>
                     <div
                         id="joystick-left"
-                        style={{position: 'absolute', left: '50px', bottom: '50px', width: '150px', height: '150px'}}
+                        className={''}
+                        style={{position: 'fixed', left: '50px', bottom: '50px', width: 'auto', height: 'auto'}}
                     />
                     <div
                         id="joystick-right"
-                        style={{position: 'absolute', right: '50px', bottom: '50px', width: '150px', height: '150px'}}
+                        className={''}
+                        style={{position: 'fixed', right: '50px', bottom: '50px', width: 'auto', height: 'auto'}}
                     />
                 </>
             }

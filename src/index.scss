@@ -9,7 +9,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
 }
 
@@ -1225,3 +1225,28 @@ body {
   -webkit-animation: 2s preload-cycle-6 linear infinite both;
   animation: 2s preload-cycle-6 linear infinite both;
 }
+
+#nipple_0_0 > div.front {
+  background: #676666 !important;
+  border: rgb(255, 255, 255) 1px solid !important;
+  border-radius: 100px !important;
+
+}
+#nipple_0_0 > div.back{
+  background: rgb(47, 46, 46) !important;
+  opacity: 100% !important;
+  border: rgba(255, 255, 255, 0.35) 2px solid !important;
+  border-radius: 100px !important;
+}
+#nipple_1_1 > div.front{
+  background: #676666 !important;
+  border: rgb(255, 255, 255) 1px solid !important;
+  border-radius: 100px !important;
+
+}
+#nipple_1_1 > div.back {
+  background: rgb(47, 46, 46) !important;
+  opacity: 100% !important;
+  border: rgba(255, 255, 255, 0.35) 2px solid !important;
+  border-radius: 100px !important;
+  }
