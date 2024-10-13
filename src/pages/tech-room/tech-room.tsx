@@ -490,15 +490,13 @@ function LoadingAnimation() {
 
 function TechRoomModel({ modelPath }) {
     const { scene } = useGLTF(modelPath, true);
+    const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
 
-    useEffect(() => {
-        console.log('Model loaded:', modelPath);
-    }, [modelPath]);
 
     return (
         <group>
-            {scene?.children.map((child) => (
+            {clone?.children.map((child) => (
                 <group key={child.name}>
                     <StaticCollider object={child} />
                 </group>
