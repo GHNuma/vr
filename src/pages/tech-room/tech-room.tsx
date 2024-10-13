@@ -489,7 +489,6 @@ function LoadingAnimation() {
 
 
 function TechRoomModel({ modelPath }) {
-    const [ready,setReady]=useState(false)
     const { scene } = useGLTF(modelPath, true);
     const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
