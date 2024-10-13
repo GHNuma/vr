@@ -7,7 +7,6 @@ import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
 import Loader from 'react-loaders';
 import business from '/models/BUSINESS.glb';
-console.log('BUSINESS:',business)
 
 type Keys = {
     forward: boolean;

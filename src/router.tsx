@@ -1,17 +1,17 @@
-import {createBrowserRouter, createHashRouter} from 'react-router-dom'
-import MainMenu from "./pages/main-menu/main-menu.tsx";
-import TechRoom from "./pages/tech-room/tech-room.tsx";
+import {createHashRouter} from 'react-router-dom'
+import {techRoomPage} from "./pages";
+import {mainMenuPage} from "./pages";
 
 export const routes = createHashRouter([
     {
         path: '/',
-        element: <MainMenu/>,
+        element: <mainMenuPage.Component/>,
         children: [
         ]
     },
     {
         path: '/techroom/:room_name',
-        element: <TechRoom/>,
+        element: <techRoomPage.Component/>,
         children: [
         ]
     }
