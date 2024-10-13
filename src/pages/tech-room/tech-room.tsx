@@ -490,7 +490,6 @@ function LoadingAnimation() {
 
 function TechRoomModel({ modelPath }) {
     const { scene } = useGLTF(modelPath, true);
-    const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
 
     useEffect(() => {
@@ -499,7 +498,7 @@ function TechRoomModel({ modelPath }) {
 
     return (
         <group>
-            {clone?.children.map((child) => (
+            {scene?.children.map((child) => (
                 <group key={child.name}>
                     <StaticCollider object={child} />
                 </group>
