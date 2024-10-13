@@ -5,7 +5,7 @@ import {
     GizmoViewport,
     Html,
     PerformanceMonitor,
-    PointerLockControls,
+    PointerLockControls, Text3D,
     useGLTF,
     useProgress
 } from '@react-three/drei';
@@ -16,6 +16,7 @@ import { useNavigate, useParams} from "react-router-dom";
 import TextedLoader from "../../components/loader.tsx";
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
+import {Perf} from "r3f-perf";
 
 type Keys = {
     forward: boolean;
@@ -49,7 +50,7 @@ function CameraController({isMobile}) {
     });
 
     useFrame(() => {
-        const speed =isMobile ? 1 : 2 ; // Скорость передвижения
+        const speed =isMobile ? 1 : 1.5 ; // Скорость передвижения
         const direction = new THREE.Vector3();
         const right = new THREE.Vector3();
 
@@ -378,7 +379,25 @@ function CameraController({isMobile}) {
             document.removeEventListener('pointerlockchange', handlePointerLockChange);
         };
     }, [active]);
+    useEffect(() => {
+        const handleWheel = (event) => {
+            // Ограничиваем значение fov (поле зрения) камеры
+            if (event.deltaY < 0) {
+                // Приближение (уменьшение fov)
+                camera.fov = Math.max(10, camera.fov - 2);
+            } else {
+                // Отдаление (увеличение fov)
+                camera.fov = Math.min(75, camera.fov + 2);
+            }
+            camera.updateProjectionMatrix();
+        };
 
+        // Добавляем обработчик колесика мыши
+        window.addEventListener('wheel', handleWheel);
+        return () => {
+            window.removeEventListener('wheel', handleWheel);
+        };
+    }, [camera]);
 
 
     return !isMobile ? <PointerLockControls ref={controlsRef} /> : null;
@@ -402,6 +421,51 @@ function CameraController({isMobile}) {
 //         </mesh>
 //     );
 // }
+
+const InteractiveObject = ({ position }) => {
+    const sphereRef = useRef();
+    const [hovered, setHovered] = useState(false);
+
+    const newPosition = [position[0], position[1] + 0.09, position[2]];
+
+    useFrame(({ camera, raycaster }) => {
+        if (sphereRef.current) {
+            // Проверяем пересечение с большой невидимой сферой
+            const intersects = raycaster.intersectObject(sphereRef.current);
+            setHovered(intersects.length > 0);
+        }
+    });
+
+    return (
+        <mesh
+            ref={sphereRef}
+            position={newPosition}
+            // Невидимая сфера для пересечения (большего размера)
+            scale={hovered ? [1, 1, 1] : [0.2, 0.2, 0.2]}
+        >
+            {/* Видимая часть объекта */}
+            {hovered ? (
+                <>
+                    <Html center>
+                        <div style={{minWidth:'100px',width:"auto", backgroundColor: 'rgba(27,27,27,0.73)',color:'white', padding: '10px', borderRadius: '10px', border: '2px solid #ffffff',userSelect:'none' }}>
+                            <p>Табличка с текстом</p>
+                        </div>
+                    </Html>
+                </>
+            ) : (
+                <>
+                    <sphereGeometry args={[0.1, 32, 32]} />
+                    <meshBasicMaterial color='black' />
+                </>
+            )}
+
+            <mesh>
+                <sphereGeometry args={[0.8, 32, 32]} /> {/* Увеличиваем радиус */}
+                <meshBasicMaterial transparent opacity={0} /> {/* Делаем её невидимой */}
+            </mesh>
+        </mesh>
+    );
+};
 
 function StaticCollider({ object }: { object: THREE.Object3D }) {
     const getGlobalTransform = (obj: THREE.Object3D) => {
@@ -472,6 +536,11 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
                 return (
                     <>
                         <primitive object={mesh} ref={ref} scale={scale.toArray()} position={preparedPosition} rotation={preparedRotation} size={preparedSize} />
+                        {mesh.name==='Text010' &&
+                            <>
+                            <InteractiveObject position={preparedPosition}/>
+                            </>
+                        }
                         {/*<VisibleCollider position={preparedPosition} size={preparedSize} rotation={preparedRotation}  />*/}
                     </>
                 );
@@ -559,6 +628,7 @@ function Scene() {
     return (
         <div style={{height: '100%', width: '100%'}}>
             <Canvas shadows camera={{fov: 75}} >
+                {/*<Perf position="top-left" />*/}
                 <ambientLight intensity={3.5}/>
                 <pointLight position={[0, 3, 2]}/>
                 <pointLight position={[0, 3, 0.7]}/>
