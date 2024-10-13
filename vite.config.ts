@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import {glsl} from "three/src/nodes/code/CodeNode";
 
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react(),glsl()],
   server: {
     watch: {

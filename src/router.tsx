@@ -1,8 +1,8 @@
-import {createHashRouter} from 'react-router-dom'
+import {createBrowserRouter} from 'react-router-dom'
 import {techRoomPage} from "./pages";
 import {mainMenuPage} from "./pages";
 
-export const routes = createHashRouter([
+export const routes = createBrowserRouter([
     {
         path: '/',
         element: <mainMenuPage.Component/>,
