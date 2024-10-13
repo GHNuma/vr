@@ -510,7 +510,7 @@ function Scene() {
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
-    const [currentModel, setCurrentModel] = useState(`/src/assets/models/${RoomClass[room_name]}.glb`);
+    const [currentModel, setCurrentModel] = useState(`/models/${RoomClass[room_name]}.glb`);
     console.log(currentModel)
 
     // const switchRoom = (newModelPath) => {
