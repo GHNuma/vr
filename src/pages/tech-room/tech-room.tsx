@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
 import Loader from 'react-loaders'
-
+// import business from '/models/BUSINESS.glb?url'
 enum RoomClass {
     premium='PREMIUM',
 business='BUSINESS',
@@ -516,7 +516,7 @@ function Scene() {
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
-    const [currentModel, setCurrentModel] = useState(`/models/${RoomClass[room_name]}.glb`);
+    const [currentModel, setCurrentModel] = useState(`/models/${RoomClass[room_name]}.glb?url`);
     console.log(currentModel)
 
     // const switchRoom = (newModelPath) => {
