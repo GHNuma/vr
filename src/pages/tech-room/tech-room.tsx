@@ -506,12 +506,13 @@ function TechRoomModel({ modelPath }) {
         </group>
     );
 }
-
 function Scene() {
     const {room_name}=useParams()
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
     const [currentModel, setCurrentModel] = useState(`/src/assets/models/${RoomClass[room_name]}.glb`);
+    console.log(currentModel)
+
     // const switchRoom = (newModelPath) => {
     //     setCurrentModel(newModelPath);
     // };
