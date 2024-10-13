@@ -543,7 +543,7 @@ function Scene() {
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
         }
-    }, []);
+    }, [room_name]);
 
     const isMobile = width <= 768;
     return (
