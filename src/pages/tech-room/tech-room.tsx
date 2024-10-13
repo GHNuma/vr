@@ -1,12 +1,21 @@
 import {useRef, useEffect, useState, useMemo, Suspense, FC} from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import {Html, PointerLockControls, useGLTF, useProgress} from '@react-three/drei';
+import {
+    GizmoHelper,
+    GizmoViewport,
+    Html,
+    PerformanceMonitor,
+    PointerLockControls,
+    useGLTF,
+    useProgress
+} from '@react-three/drei';
 import {Physics, useBox} from '@react-three/cannon';
 import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
-import Loader from 'react-loaders';
-import business from '/models/BUSINESS.glb';
+import TextedLoader from "../../components/loader.tsx";
+import {Simulate} from "react-dom/test-utils";
+import click = Simulate.click;
 
 type Keys = {
     forward: boolean;
@@ -17,6 +26,7 @@ type Keys = {
 
 
 function CameraController({isMobile}) {
+    const {active}=useProgress()
     const controlsRef = useRef<PointerLockControls>(null!);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isPointerLocked, setIsPointerLocked] = useState(false);
@@ -342,8 +352,10 @@ function CameraController({isMobile}) {
 
 
     useEffect(() => {
-        const handleMouseDown = () => {
-            controlsRef.current?.lock();
+        const handleMouseDown = (localName:any) => {
+            if(localName==='canvas'){
+                controlsRef.current?.lock();
+            }
         };
         // const handleMouseUp = () => {
         //     controlsRef.current?.unlock();
@@ -353,21 +365,23 @@ function CameraController({isMobile}) {
             setIsPointerLocked(document.pointerLockElement === document.body);
         };
 
-        window.addEventListener('mousedown', handleMouseDown);
+        window.addEventListener('mousedown', (e)=>handleMouseDown(e?.target?.localName));
         // window.addEventListener('mouseup', handleMouseUp);
         document.addEventListener('pointerlockchange', handlePointerLockChange);
-
+        // const clickEvent = new Event('mousedown', { bubbles: true, cancelable: true });
+        // if(!active){
+        //     window.dispatchEvent(clickEvent)
+        // }
         return () => {
             window.removeEventListener('mousedown', handleMouseDown);
             // window.removeEventListener('mouseup', handleMouseUp);
             document.removeEventListener('pointerlockchange', handlePointerLockChange);
         };
-    }, []);
+    }, [active]);
 
 
 
-
-    return !isMobile ? <PointerLockControls ref={controlsRef}/> : null;
+    return !isMobile ? <PointerLockControls ref={controlsRef} /> : null;
 }
 
 // function VisibleCollider({ position, size, rotation }) {
@@ -481,14 +495,14 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
 
 function LoadingAnimation() {
     const { loaded,progress } = useProgress()
-    return <Html center style={{textWrap:'nowrap',gap:"48px"}} className={'flex flex-col flex-center'}>
-        <Loader type="ball-clip-rotate-multiple"/>
-        <div style={{position:'relative'}}>{progress.toFixed()} %</div></Html>
+    return <Html center className={'w-screen h-screen'}>
+        <TextedLoader />
+        </Html>
 }
 
 
 function TechRoomModel({ modelPath }) {
-    const { scene } = useGLTF(modelPath, true);
+    const { scene } = useGLTF(modelPath, true,);
     const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
 
@@ -515,7 +529,7 @@ function Scene() {
     const navigate= useNavigate()
     const [width, setWidth] = useState<number>(window.innerWidth);
     const [currentModel, setCurrentModel] = useState('');
-
+    const {progress,active}=useProgress()
     // const switchRoom = (newModelPath) => {
     //     setCurrentModel(newModelPath);
     // };
@@ -544,7 +558,7 @@ function Scene() {
     const isMobile = width <= 768;
     return (
         <div style={{height: '100%', width: '100%'}}>
-            <Canvas shadows camera={{fov: 75}}>
+            <Canvas shadows camera={{fov: 75}} >
                 <ambientLight intensity={3.5}/>
                 <pointLight position={[0, 3, 2]}/>
                 <pointLight position={[0, 3, 0.7]}/>
@@ -555,15 +569,16 @@ function Scene() {
                         <TechRoomModel modelPath={currentModel}/>
                     </Suspense>
                     {/*<FloorCollider/>*/}
-                    <CameraController isMobile={isMobile}/>
+                    <CameraController isMobile={isMobile} />
                 </Physics>
 
             </Canvas>
-            <div
+            {progress===100 && <div
                 className={'fixed p-1 top-5 left-5 bg-white bg-opacity-70 flex justify-center items-center rounded-md border border-b-gray-100 cursor-pointer'}
-                onClick={(e)=>{
+                onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
+                    document.exitPointerLock();
                     navigate('/')
                 }}
             >
@@ -571,8 +586,8 @@ function Scene() {
                      stroke="currentColor" className="size-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
                 </svg>
-            </div>
-            {isMobile &&
+            </div>}
+            {isMobile && progress===100 &&
                 <>
                     <div
                         id="joystick-left"
@@ -592,9 +607,9 @@ const TechRoom: FC<any> = (any) => {
 
     return (
         <div style={{width: '100vw', height: '100vh', position: 'relative'}}>
-        <Scene/>
-    </div>
-);
+            <Scene/>
+        </div>
+    );
 }
 
 export default TechRoom

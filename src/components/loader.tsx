@@ -1,14 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-const TextedLoader: React.FC = () => {
-    const phrasesRef = useRef<SVGGElement>(null);
-    const checkmarksRef = useRef<SVGPolygonElement[]>([]);
-
+const TextedLoader = () => {
+    const phrasesContainerRef = useRef(null);
     const checkmarkIdPrefix = "loadingCheckSVG-";
     const checkmarkCircleIdPrefix = "loadingCheckCircleSVG-";
     const verticalSpacing = 50;
 
-    const shuffleArray = (array: string[]) => {
+    const phrases = [
+        "Подключение к серверу",
+        "Захват объектов",
+        "Перерисовка страницы",
+        "Разрешение IP",
+        "Размышление о пустоте",
+        "Рассмотрение альтернатив",
+        "Перетасовка битов",
+        "Ожидание ответа",
+        "Генерация страниц",
+        "Моделирование рабочего процесса",
+        "Расширяя возможности человечества",
+        "Быть крутым",
+        "Подпитывать идею",
+        "Исправить CSS",
+        "Разговор с сервером",
+        "Извлечение данных"
+    ];
+
+    const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -16,128 +33,135 @@ const TextedLoader: React.FC = () => {
         return array;
     };
 
-    const createSVG = (tag: string, properties: { [key: string]: string }, children?: SVGElement[]) => {
+    const createSVG = (tag, properties, opt_children) => {
         const newElement = document.createElementNS("http://www.w3.org/2000/svg", tag);
         for (const prop in properties) {
             newElement.setAttribute(prop, properties[prop]);
         }
-        if (children) {
-            children.forEach(child => newElement.appendChild(child));
+        if (opt_children) {
+            opt_children.forEach((child) => {
+                newElement.appendChild(child);
+            });
         }
         return newElement;
     };
 
-    const createPhraseSvg = (phrase: string, yOffset: number) => {
+    const createPhraseSvg = (phrase, yOffset) => {
         const text = createSVG("text", {
             fill: "white",
-            x: "50",
-            y: `${yOffset}`,
-            "fontSize": "18",
-            "fontFamily": "Arial"
+            x: 50,
+            y: yOffset,
+            "font-size": 18,
+            "font-family": "Arial"
         });
         text.appendChild(document.createTextNode(phrase + "..."));
         return text;
     };
 
-    const createCheckSvg = (yOffset: number, index: number) => {
+    const createCheckSvg = (yOffset, index) => {
         const check = createSVG("polygon", {
-            points: "21.661,7.643 13.396,19.328 9.429,15.361 7.075,17.714 13.745,24.384 24.345,9.708",
+            points:
+                "21.661,7.643 13.396,19.328 9.429,15.361 7.075,17.714 13.745,24.384 24.345,9.708 ",
             fill: "rgba(255,255,255,1)",
             id: checkmarkIdPrefix + index
         });
         const circleOutline = createSVG("path", {
-            d: "M16,0C7.163,0,0,7.163,0,16s7.163,16,16,16s16-7.163,16-16S24.837,0,16,0z M16,30C8.28,30,2,23.72,2,16C2,8.28,8.28,2,16,2 c7.72,0,14,6.28,14,14C30,23.72,23.72,30,16,30z",
+            d:
+                "M16,0C7.163,0,0,7.163,0,16s7.163,16,16,16s16-7.163,16-16S24.837,0,16,0z M16,30C8.28,30,2,23.72,2,16C2,8.28,8.28,2,16,2 c7.72,0,14,6.28,14,14C30,23.72,23.72,30,16,30z",
             fill: "white"
         });
         const circle = createSVG("circle", {
             id: checkmarkCircleIdPrefix + index,
             fill: "rgba(255,255,255,0)",
-            cx: "16",
-            cy: "16",
-            r: "15"
+            cx: 16,
+            cy: 16,
+            r: 15
         });
-        const group = createSVG("g", {
-            transform: `translate(10 ${yOffset - 20}) scale(.9)`
-        }, [circle, check, circleOutline]);
+        const group = createSVG(
+            "g",
+            {
+                transform: "translate(10 " + (yOffset - 20) + ") scale(.9)"
+            },
+            [circle, check, circleOutline]
+        );
         return group;
     };
 
-    const addPhrasesToDocument = (phrases: string[]) => {
+    const addPhrasesToDocument = (phrases) => {
         phrases.forEach((phrase, index) => {
             const yOffset = 30 + verticalSpacing * index;
-            if (phrasesRef.current) {
-                phrasesRef.current.appendChild(createPhraseSvg(phrase, yOffset));
-                phrasesRef.current.appendChild(createCheckSvg(yOffset, index));
-            }
+            phrasesContainerRef.current.appendChild(createPhraseSvg(phrase, yOffset));
+            phrasesContainerRef.current.appendChild(createCheckSvg(yOffset, index));
         });
     };
 
+    const easeInOut = (t) => {
+        const period = 200;
+        return (Math.sin(t / period + 100) + 1) / 2;
+    };
+
     useEffect(() => {
-        const phrases = shuffleArray([
-            "Подключение к серверу",
-            "Захват объектов",
-            "Перерисовка страницы",
-            "Разрешение IP",
-            "Размышление о пустоте",
-            "Рассмотрение альтернатив",
-            "Перетасовка битов",
-            "Ожидание ответа",
-            "Генерация страниц",
-            "Моделирование рабочего процесса",
-            "Расширяя возможности человечества",
-            "Быть крутым",
-            "Подпитывать идею",
-            "Исправить CSS",
-            "Разговор с сервером",
-            "Извлечение данных"
-        ]);
+        const shuffledPhrases = shuffleArray([...phrases]);
+        addPhrasesToDocument(shuffledPhrases);
+        const upwardMovingGroup = phrasesContainerRef.current;
+        upwardMovingGroup.currentY = 0;
 
-        addPhrasesToDocument(phrases);
-
-        const upwardMovingGroup = phrasesRef.current;
-        upwardMovingGroup!.currentY = 0;
-
-        const checks = phrases.map((_, i) => ({
-            check: document.getElementById(checkmarkIdPrefix + i)!,
-            circle: document.getElementById(checkmarkCircleIdPrefix + i)!
+        const checks = shuffledPhrases.map((_, i) => ({
+            check: document.getElementById(checkmarkIdPrefix + i),
+            circle: document.getElementById(checkmarkCircleIdPrefix + i)
         }));
 
-        const startTime = new Date().getTime();
+        let start_time = new Date().getTime();
 
         const animateLoading = () => {
             const now = new Date().getTime();
-            upwardMovingGroup!.setAttribute("transform", `translate(0 ${upwardMovingGroup!.currentY})`);
-            upwardMovingGroup!.currentY -= 1.35 * easeInOut(now);
-
+            upwardMovingGroup.setAttribute(
+                "transform",
+                "translate(0 " + upwardMovingGroup.currentY + ")"
+            );
+            upwardMovingGroup.currentY -= 1.35 * easeInOut(now);
             checks.forEach((check, i) => {
                 const colorChangeBoundary = -i * verticalSpacing + verticalSpacing + 15;
-                if (upwardMovingGroup!.currentY < colorChangeBoundary) {
-                    const alpha = Math.max(Math.min(1 - (upwardMovingGroup!.currentY - colorChangeBoundary + 15) / 30, 1), 0);
-                    check.circle.setAttribute("fill", `rgba(255, 255, 255, ${alpha})`);
+                if (upwardMovingGroup.currentY < colorChangeBoundary) {
+                    const alpha = Math.max(
+                        Math.min(
+                            1 - (upwardMovingGroup.currentY - colorChangeBoundary + 15) / 30,
+                            1
+                        ),
+                        0
+                    );
+                    check.circle.setAttribute("fill", "rgba(255, 255, 255, " + alpha + ")");
                     const checkColor = [
                         Math.round(255 * (1 - alpha) + 120 * alpha),
                         Math.round(255 * (1 - alpha) + 154 * alpha)
                     ];
-                    check.check.setAttribute("fill", `rgba(255, ${checkColor[0]}, ${checkColor[1]}, 1)`);
+                    check.check.setAttribute(
+                        "fill",
+                        "rgba(255, " + checkColor[0] + "," + checkColor[1] + ", 1)"
+                    );
                 }
             });
 
-            if (now - startTime < 30000 && upwardMovingGroup!.currentY > -710) {
+            if (now - start_time < 30000 && upwardMovingGroup.currentY > -710) {
                 requestAnimationFrame(animateLoading);
+            } else {
+                // Reset the animation
+                upwardMovingGroup.currentY = 0;
+                phrasesContainerRef.current.innerHTML = ""; // Clear previous phrases
+                addPhrasesToDocument(shuffleArray([...phrases])); // Add new phrases
+                start_time = new Date().getTime(); // Reset start time
+                animateLoading(); // Restart animation
             }
         };
 
-        setTimeout(() => {
-            document.body.classList.add("loaded");
-        }, 15000);
+        animateLoading();
 
-        requestAnimationFrame(animateLoading);
+        return () => {
+            if (phrasesContainerRef.current) {
+                phrasesContainerRef.current.innerHTML = ""; // Cleanup on unmount
+            }
+        };
     }, []);
-
-    const easeInOut = (t: number) => {
-        const period = 200;
-        return (Math.sin(t / period + 100) + 1) / 2;
-    };
 
     return (
         <div id="loader-wrapper">
@@ -146,10 +170,12 @@ const TextedLoader: React.FC = () => {
                     <svg width="100%" height="100%">
                         <defs>
                             <style type="text/css">
-                                {`@font-face {
-                  font-family: "Proxima";
-                  src: url('');
-                }`}
+                                {`
+                  @font-face {
+                    font-family: "Proxima";
+                    src: url('');
+                  }
+                `}
                             </style>
                             <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
                                 <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
@@ -161,16 +187,19 @@ const TextedLoader: React.FC = () => {
                                 <rect width="100%" height="100%" fill="url(#linearGradient)" />
                             </mask>
                         </defs>
-                        <g ref={phrasesRef} width="100%" height="100%" style={{ mask: 'url(#mask)' }}>
-                            {/* Фразы и чекбоксы будут добавлены динамически */}
+                        <g width="100%" height="100%" style={{ mask: "url(#mask)" }}>
+                            <g ref={phrasesContainerRef} id="phrases"></g>
                         </g>
                     </svg>
                 </div>
                 <div id="ighex">
                     <div className="preloader loading">
-                        {[...Array(6)].map((_, index) => (
-                            <span key={index} className="slice"></span>
-                        ))}
+                        <span className="slice"></span>
+                        <span className="slice"></span>
+                        <span className="slice"></span>
+                        <span className="slice"></span>
+                        <span className="slice"></span>
+                        <span className="slice"></span>
                     </div>
                 </div>
             </div>
