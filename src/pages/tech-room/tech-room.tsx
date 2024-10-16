@@ -1,11 +1,8 @@
 import {useRef, useEffect, useState, useMemo, Suspense, FC} from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import {
-    GizmoHelper,
-    GizmoViewport,
     Html,
-    PerformanceMonitor,
-    PointerLockControls, Text3D,
+    PointerLockControls,
     useGLTF,
     useProgress
 } from '@react-three/drei';
@@ -14,8 +11,6 @@ import * as THREE from 'three';
 import nipplejs from 'nipplejs';
 import { useNavigate, useParams} from "react-router-dom";
 import TextedLoader from "../../components/loader.tsx";
-import {Simulate} from "react-dom/test-utils";
-import click = Simulate.click;
 import {Perf} from "r3f-perf";
 
 type Keys = {
@@ -25,6 +20,117 @@ type Keys = {
     right: boolean;
 };
 
+const ModalsInRooms=[
+    {
+        name:'PREMIUM',
+        modals: [
+            {
+                name: "Text028",
+                headerText:'Плавающий пол',
+                text: 'Он снижает распространение бытового\n' +
+                    'ударного шума (падение предметов на\n' +
+                    'пол, детские игры с мячом) в ЖК.\n',
+                list:{
+                    title:'Состав:',
+                    items:['Плита перекрытия','Виброшумоизоляционный материал(Минераловатная плита)','Полиэтиленовая пленка','Фибростяжка']
+                }
+            },{
+                name: "Text033",
+                headerText:'Межквартирные перегородки',
+                text: 'В классе Премиум межквартирные перегородки\n' +
+                    'возводят из полнотелого кирпича, отделанного\n' +
+                    'цементно-песчаным раствором или гипсовой\n' +
+                    'смесью.\n' +
+                    'Также может быть использована технология\n' +
+                    'шумоизоляции Acoustic Pro - межквартирные перегородки из\n' +
+                    'газобетонного блока.\n'
+            },{
+                name: "Cube035_3",
+                headerText:'Высота потолков и размеры окон',
+                text: 'Высота потолков – 3,3 м. У ЖК Премиум класса увеличенные оконные проёмы высотой до 2,5 м. Все наружные окна выполняются из 7-камерного металлопластикового профиля, что гарантирует надежную защиту от сурового климата, а также снижает нагревание квартиры в теплый период года.\n'
+
+            },{
+                name: "Plane008_2",
+                headerText:'Система умного дома',
+                text: 'Квартиры Премиум-класса оснащаются системой умного дома. Управлять системой Умный дом можно через приложение Connected Home.\n',
+                list:{
+                    title:'В этом техноруме представлены:',
+                    items:[
+                        'Датчик движения (регистрирует активность и передает сигнал о движении)',
+                        'Датчик открытия двери (следит за состоянием двери, защищая дом от проникновения)',
+                        'Управление отоплением (дает возможность регулировать температуру радиаторов)',
+                        'Сенсоры протечки (отправляют сигнал в приложение и на клапана перекрытия воды, при его наличии)',
+                        'Аквастоп (при попадании жидкости на датчики протечки подается сигнал, чтобы перекрыть подачу воды в\n' +
+                        'стояке)',
+                        'Датчик дыма (выявляет наличие дыма. При обнаружении издает тревожный сигнал и уведомляет в\n' +
+                        'приложении)',
+                        'Электрокарниз (система автоматической раздвижки штор)',
+                        'Мультирум– потолочная аудиосистема высшего класса, с отличным качеством звучания',
+                        'Функция Выключить все (выключает все розетки в доме в один клик черезе приложение Connected Home)',
+                    ]
+                }
+            },{
+                name: "Cube017",
+                headerText:'Радиаторы, приточные клапаны',
+                text: 'Для создания тепла в доме мы применяем стальные панельные радиаторы, внутрипольные или\n' +
+                    'напольные конвекторы, а также вертикальные радиаторы.\n' +
+                    'Подводка трубопроводов к приборам отопления выполняется из стены, что исключает неэстетичные\n' +
+                    'отверстия на полу.\n'
+            },{
+                name: "Plane011_2",
+                headerText:'Места общего пользования',
+                text: 'Отделка мест общего пользования в Премиум - классе\n' +
+                    'выполнена по индивидуальному дизайн проекту. На\n' +
+                    'типовых и первых этажах имеются картины. Дизайн\n' +
+                    'первых этажей наполнен декоративными элементами и\n' +
+                    'зонами ожидания с мебелью.\n' +
+                    'На этажах размещены ниши инженерных сетей,\n' +
+                    'закрытые надежными металлическими дверьми,\n' +
+                    'предотвращающими несанкционированный доступ, а\n' +
+                    'также позволяющих обслуживать инженерные системы\n' +
+                    'без нарушения отделки.\n' +
+                    'На всех входных группах, лифтах, по периметру здания, в\n' +
+                    'паркинге стоят камеры, которые снимают 24/7.\n'
+            },{
+                name: "Plane001_2",
+                headerText:'Отделка квартиры',
+                list: {
+                    title:'Квартира Премиум-класса сдается в предчистовой отделке:',
+                    items:[
+                        'отделка стен гипсовыми штукатурными\n' +
+                        'смесями\n',
+                        'стяжка пола',
+                        'установлены подоконники',
+                        'электроразводка с оптимальным\n' +
+                        'количеством розеток и освещения. В\n' +
+                        'прихожей установлен щиток\n',
+                        'лучевая разводка водоснабжения с\n' +
+                        'установкой запорной арматуры и\n' +
+                        'приборов учета\n',
+                        'приточные клапаны для естественной\n' +
+                        'вентиляции\n',
+                        'ниша в прихожей для модема',
+                        'внутреннее видео IP устройство\n' +
+                        'домофонии\n',
+                    ]
+                }
+            },
+
+        ]
+    },
+    {
+        name:'BUSINESS',
+
+    },
+    {
+        name:'COMFORT',
+
+    },
+    {
+        name:'STANDARD',
+
+    }
+]
 
 function CameraController({isMobile}) {
     const {active}=useProgress()
@@ -422,7 +528,8 @@ function CameraController({isMobile}) {
 //     );
 // }
 
-const InteractiveObject = ({ position }) => {
+const InteractiveObject = ({ position, data }) => {
+    const {headerText,list,text}=data
     const sphereRef = useRef();
     const [hovered, setHovered] = useState(false);
 
@@ -447,8 +554,29 @@ const InteractiveObject = ({ position }) => {
             {hovered ? (
                 <>
                     <Html center>
-                        <div style={{minWidth:'100px',width:"auto", backgroundColor: 'rgba(27,27,27,0.73)',color:'white', padding: '10px', borderRadius: '10px', border: '2px solid #ffffff',userSelect:'none' }}>
-                            <p>Табличка с текстом</p>
+                        <div style={{
+                            minWidth: '300px',
+                            width: "auto",
+                            backgroundColor: 'rgba(27,27,27,0.73)',
+                            color: 'white',
+                            padding: '10px',
+                            borderRadius: '10px',
+                            border: '2px solid #ffffff',
+                            userSelect: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                        }}>
+                            <p className={'font-bold text-xl'}>{headerText && headerText}</p>
+                            <p className={'font-medium text-sm'}>{text && text}</p>
+                            <div>{list &&
+                                <div className={'flex-col gap-0.5'}>
+                                    {list.title}
+                                    {list.items.map((item, idx) => (
+                                        <div className={'font-medium text-sm'}>{idx+1}. {item}</div>
+                                        ))}
+                                </div>
+                            }
+                            </div>
                         </div>
                     </Html>
                 </>
@@ -467,7 +595,7 @@ const InteractiveObject = ({ position }) => {
     );
 };
 
-function StaticCollider({ object }: { object: THREE.Object3D }) {
+function StaticCollider({ object, currentRoomData }: { object: THREE.Object3D,currentRoomData:any }) {
     const getGlobalTransform = (obj: THREE.Object3D) => {
         const position = new THREE.Vector3();
         const quaternion = new THREE.Quaternion();
@@ -492,6 +620,12 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
     };
 
     const addColliders = (obj: THREE.Object3D) => {
+        let modalData={};
+
+        currentRoomData.modals.map(modal=>{
+            if(modal.name===obj.name)
+                modalData=modal
+        })
         if (obj instanceof THREE.Mesh) {
             const mesh = obj;
 
@@ -536,9 +670,9 @@ function StaticCollider({ object }: { object: THREE.Object3D }) {
                 return (
                     <>
                         <primitive object={mesh} ref={ref} scale={scale.toArray()} position={preparedPosition} rotation={preparedRotation} size={preparedSize} />
-                        {mesh.name==='Text010' &&
+                        {Object.keys(modalData).length !== 0 &&
                             <>
-                            <InteractiveObject position={preparedPosition}/>
+                            <InteractiveObject position={preparedPosition} data={modalData}/>
                             </>
                         }
                         {/*<VisibleCollider position={preparedPosition} size={preparedSize} rotation={preparedRotation}  />*/}
@@ -574,15 +708,18 @@ function TechRoomModel({ modelPath }) {
     const { scene } = useGLTF(modelPath, true,);
     const clone = useMemo(() => scene.clone(), [scene]);
     useGLTF.preload(modelPath);
-
+    const currentType=modelPath.split('/').pop().replace('.glb', '');
+    const currentRoomData = ModalsInRooms.find((roomData)=>roomData.name===currentType)
 
     return (
         <group>
-            {clone?.children.map((child) => (
-                <group key={child.name}>
-                    <StaticCollider object={child} />
-                </group>
-            ))}
+            {clone?.children.map((child) => {
+                return (
+                    <group key={child.name}>
+                        <StaticCollider object={child} currentRoomData={currentRoomData}/>
+                    </group>
+                )
+            })}
         </group>
     );
 }
