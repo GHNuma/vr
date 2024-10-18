@@ -224,7 +224,7 @@ const ModalsInRooms=[
                 '(Минераловатная плита)\n','Полиэтиленовая пленка','Фибростяжка']
             }
         },{
-            name:"Text018",
+            name:"Cube050_2",
             headerText:"Acoustic Pro",
             text:"В классе Бизнес используется технология\n" +
                 "шумоизоляции Acoustic Pro.\n" +
@@ -303,7 +303,7 @@ const ModalsInRooms=[
         name:'STANDARD',
         modals:[
             {
-                name: "Text004",
+                name: "Cube094",
                 headerText:'Шумоизоляция:\n' +
                     'перегородки\n',
                 text: 'В классе Стандарт межквартирные перегородки\n' +
@@ -314,7 +314,7 @@ const ModalsInRooms=[
                     'использования ГКЛ для межкомнатных\n' +
                     'перегородок.\n',
             },{
-                name:"Text018",
+                name:"Text049",
                 headerText:"Плавающий пол",
                 text:"Он снижает распространение бытового\n" +
                     "ударного шума (падение предметов на\n" +
@@ -325,7 +325,7 @@ const ModalsInRooms=[
                     '(Минераловатная плита)\n','Полиэтиленовая пленка','Фибростяжка']
                 }
             },{
-                name:"Cube038_2",
+                name:"Cube137_1",
                 headerText:"Acoustic Pro",
                 text:"В классе комфорт используется технология\n" +
                     "шумоизоляции Acoustic Pro.\n" +
@@ -337,7 +337,7 @@ const ModalsInRooms=[
                 }
 
             },{
-                name:"Cube029",
+                name:"Cube128_1",
                 headerText:"Помещение: высота потолков, размеры окон",
                 text:"Высота потолков - 2,65 м в MODEX и\n" +
                     "2,7 м в остальных зданиях.\n" +
@@ -356,7 +356,7 @@ const ModalsInRooms=[
                     "условий.\n",
 
             },{
-                name:"Circle002",
+                name:"HEAT_3",
                 headerText:"Радиаторы",
                 text:"Стальные панельные или биметаллические радиаторы.\n" +
                     "Мы используем двухтрубную систему отопления. Они\n" +
@@ -371,7 +371,7 @@ const ModalsInRooms=[
                     "основной магистрали трубопровода и иногда при\n" +
                     "ответвлениях от магистрали в комнаты.\n",
             },{
-                name:"Cube049_2",
+                name:"Circle043",
                 headerText:"Инженерные системы",
                 text:"В стандарт классе ОБД применяется вертикальная разводка водоснабжения. При вертикальной разводке\n" +
                     "клапан по стояку можно закрыть из подвального или технического помещения. Для того, чтобы устранить\n" +
@@ -380,7 +380,7 @@ const ModalsInRooms=[
                     "При вертикальной разводке системы водоснабжения приборы учета воды располагаются в\n" +
                     "легкодоступных местах, чтобы было удобно снимать показания счетчиков.\n"
             },{
-                name:"Plane001_3",
+                name:"Cube124_1",
                 headerText:"Места общего пользования",
                 text: 'Места общего пользования в стандарт классе отделаны в\n' +
                     'тонах, соответствующих типовому дизайн-коду.\n' +
@@ -395,7 +395,7 @@ const ModalsInRooms=[
                     'телефонию и интернет.\n',
 
             },{
-                name:"Plane001_3",
+                name:"Plane003_2",
                 headerText:"Отделка квартиры",
                 list:{
                     title: 'Квартира Стандарт-класса сдаётся в\n' +
@@ -576,6 +576,26 @@ function CameraController({isMobile}) {
             // }
             //
             // updateCamera();
+            document.addEventListener('touchstart', function(event) {
+                // Определяем начальные координаты касания
+                const xStart = event.touches[0].clientX;
+                const yStart = event.touches[0].clientY;
+
+                document.addEventListener('touchmove', function(event) {
+                    // Определяем текущее положение касания
+                    const xEnd = event.touches[0].clientX;
+                    const yEnd = event.touches[0].clientY;
+
+                    // Рассчитываем смещения по осям
+                    const xDiff = xStart - xEnd;
+                    const yDiff = yStart - yEnd;
+
+                    // Если это горизонтальный свайп, предотвращаем действие
+                    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                        event.preventDefault();
+                    }
+                }, { passive: false });
+            });
 
             window.addEventListener('keydown', handleKeyDown);
             window.addEventListener('keyup', handleKeyUp);
@@ -822,7 +842,7 @@ const InteractiveObject = ({ position, data }) => {
     const {headerText,list,text}=data
     const sphereRef = useRef();
     const outlineRef = useRef();
-    const [hovered, setHovered] = useState(false);
+    const [hovered, setHovered] = useState(true);
 
     const newPosition = [position[0], position[1] + 0.09, position[2]];
 
@@ -830,7 +850,7 @@ const InteractiveObject = ({ position, data }) => {
         if (sphereRef.current) {
             // Проверяем пересечение с большой невидимой сферой
             const intersects = raycaster.intersectObject(sphereRef.current);
-            setHovered(intersects.length > 0);
+            setHovered(!(intersects.length > 0));
                 const elapsedTime = clock.getElapsedTime();
                 const scaleFactor = hovered ? 1.3 + Math.sin(elapsedTime * 3) * 0.2 : 1;
                 outlineRef.current.scale.set(scaleFactor, scaleFactor, scaleFactor);
@@ -842,20 +862,20 @@ const InteractiveObject = ({ position, data }) => {
         <mesh
             position={newPosition}
             ref={sphereRef}
-            scale={hovered ? [0.3, 0.3, 0.3] : [0.2, 0.2, 0.2]}  // Увеличение при наведении
+            scale={hovered ? [0.2, 0.2, 0.2] : [0.3, 0.3, 0.3]}  // Увеличение при наведении
 
         >
                 <sphereGeometry args={[0.09, 32, 32]}/>
-                <meshStandardMaterial color={hovered ? 'rgb(203,255,30)' : '#e14fb0'}/>
+                <meshStandardMaterial color={hovered ? '#e14fb0' : 'rgb(203,255,30)'}/>
 
             {/* Контур вокруг сферы */}
             <mesh ref={outlineRef}>
                 <sphereGeometry args={[0.095, 32, 32]}/>
                 {/* Радиус чуть больше основной сферы */}
                 <meshBasicMaterial
-                    color={hovered ? 'rgb(154,248,66)' : 'gray'}
+                    color={hovered ?  'gray' : 'rgb(154,248,66)'}
                     transparent
-                    opacity={hovered ? 1 : 0.6}  // Прозрачность меняется при наведении
+                    opacity={hovered ? 0.6 : 1}  // Прозрачность меняется при наведении
                     wireframe // Чтобы контур был видимым
                 />
             </mesh>
@@ -866,7 +886,7 @@ const InteractiveObject = ({ position, data }) => {
                 <meshBasicMaterial transparent opacity={0}/>
             </mesh>
             {/* Видимая часть объекта */}
-            {hovered ? (
+            {!hovered ? (
                 <>
                     <Html center>
                         <div style={{
@@ -1140,12 +1160,12 @@ function Scene() {
                     <div
                         id="joystick-left"
                         className={''}
-                        style={{position: 'fixed', left: '50px', bottom: '50px', width: 'auto', height: 'auto'}}
+                        style={{position: 'fixed', left: '50px', bottom: '50px', width: 'auto', height: 'auto',userSelect:'none'}}
                     />
                     <div
                         id="joystick-right"
                         className={''}
-                        style={{position: 'fixed', right: '50px', bottom: '50px', width: 'auto', height: 'auto'}}
+                        style={{position: 'fixed', right: '50px', bottom: '50px', width: 'auto', height: 'auto',userSelect:'none'}}
                     />
                 </>
             }

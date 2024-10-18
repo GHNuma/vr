@@ -16,10 +16,10 @@ const MainMenu: FC<any> = (props) => {
         }
     }, []);
     return (
-        <div className={`relative min-h-screen  w-full text-white ${isMobile ? 'text-2xl flex-wrap grid grid-cols-2 gap-x-1 gap-y-1 ' : 'text-3xl gap-2 flex justify-between h-full'} font-serif`}>
+        <div className={`relative h-full w-full text-white ${isMobile ? 'text-2xl flex-wrap grid grid-cols-2 gap-x-3  p-2.5' : 'text-3xl gap-2 flex justify-between h-full'} font-serif`}>
             <div className="absolute inset-0 bg-black bg-opacity-60 h-full"/>
 
-            <div className={`${isMobile ? 'h-[600px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
+            <div className={`${isMobile ? 'h-[400px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
                 navigate('techroom/premium')
             }}>
                 <div className={'bg-room1 h-full w-full bg-cover flex justify-center items-center '}>
@@ -29,7 +29,7 @@ const MainMenu: FC<any> = (props) => {
                 </div>
             </div>
 
-            <div className={` ${isMobile ? 'h-[600px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-500 ease-in-out`} onClick={()=>{
+            <div className={` ${isMobile ? 'h-[400px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
                 navigate('techroom/business')
             }} >
                 <div className={'bg-room2 h-full w-full bg-cover flex justify-center items-center '}>
@@ -39,7 +39,7 @@ const MainMenu: FC<any> = (props) => {
                 </div>
             </div>
 
-            <div className={` ${isMobile ? ' h-[600px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
+            <div className={` ${isMobile ? ' h-[400px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
                 navigate('techroom/comfort')
             }}>
                 <div className={'bg-room3 h-full w-full bg-cover flex justify-center items-center '}>
@@ -49,7 +49,7 @@ const MainMenu: FC<any> = (props) => {
                 </div>
             </div>
 
-            <div className={` ${isMobile ? ' h-[600px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
+            <div className={` ${isMobile ? ' h-[400px]' : 'w-1/4 h-full'} cursor-pointer hover:scale-110 transition-transform duration-100 hover:duration-700 ease-in-out`} onClick={()=>{
                 navigate('techroom/standard')
             }}>
                 <div className={'bg-room4 h-full w-full bg-cover flex justify-center items-center '}>
