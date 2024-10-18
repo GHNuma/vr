@@ -576,26 +576,6 @@ function CameraController({isMobile}) {
             // }
             //
             // updateCamera();
-            document.addEventListener('touchstart', function(event) {
-                // Определяем начальные координаты касания
-                const xStart = event.touches[0].clientX;
-                const yStart = event.touches[0].clientY;
-
-                document.addEventListener('touchmove', function(event) {
-                    // Определяем текущее положение касания
-                    const xEnd = event.touches[0].clientX;
-                    const yEnd = event.touches[0].clientY;
-
-                    // Рассчитываем смещения по осям
-                    const xDiff = xStart - xEnd;
-                    const yDiff = yStart - yEnd;
-
-                    // Если это горизонтальный свайп, предотвращаем действие
-                    if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                        event.preventDefault();
-                    }
-                }, { passive: false });
-            });
 
             window.addEventListener('keydown', handleKeyDown);
             window.addEventListener('keyup', handleKeyUp);
@@ -1113,6 +1093,10 @@ function Scene() {
         }
     }, [room_name]);
 
+    const canvas = useRef()
+    canvas?.current?.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, { passive: false });
 
     const isMobile = width <= 768;
 
