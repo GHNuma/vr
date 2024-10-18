@@ -821,25 +821,50 @@ function CameraController({isMobile}) {
 const InteractiveObject = ({ position, data }) => {
     const {headerText,list,text}=data
     const sphereRef = useRef();
+    const outlineRef = useRef();
     const [hovered, setHovered] = useState(false);
 
     const newPosition = [position[0], position[1] + 0.09, position[2]];
 
-    useFrame(({ camera, raycaster }) => {
+    useFrame(({ camera, raycaster,clock }) => {
         if (sphereRef.current) {
             // Проверяем пересечение с большой невидимой сферой
             const intersects = raycaster.intersectObject(sphereRef.current);
             setHovered(intersects.length > 0);
-        }
-    });
+                const elapsedTime = clock.getElapsedTime();
+                const scaleFactor = hovered ? 1.3 + Math.sin(elapsedTime * 3) * 0.2 : 1;
+                outlineRef.current.scale.set(scaleFactor, scaleFactor, scaleFactor);
+            }
+
+        });
 
     return (
         <mesh
-            ref={sphereRef}
             position={newPosition}
-            // Невидимая сфера для пересечения (большего размера)
-            scale={hovered ? [1, 1, 1] : [0.2, 0.2, 0.2]}
+            ref={sphereRef}
+            scale={hovered ? [0.3, 0.3, 0.3] : [0.2, 0.2, 0.2]}  // Увеличение при наведении
+
         >
+                <sphereGeometry args={[0.09, 32, 32]}/>
+                <meshStandardMaterial color={hovered ? 'rgb(203,255,30)' : '#e14fb0'}/>
+
+            {/* Контур вокруг сферы */}
+            <mesh ref={outlineRef}>
+                <sphereGeometry args={[0.095, 32, 32]}/>
+                {/* Радиус чуть больше основной сферы */}
+                <meshBasicMaterial
+                    color={hovered ? 'rgb(154,248,66)' : 'gray'}
+                    transparent
+                    opacity={hovered ? 1 : 0.6}  // Прозрачность меняется при наведении
+                    wireframe // Чтобы контур был видимым
+                />
+            </mesh>
+
+            {/* Невидимая большая сфера для пересечения */}
+            <mesh>
+                <sphereGeometry args={[0.8, 32, 32]}/>
+                <meshBasicMaterial transparent opacity={0}/>
+            </mesh>
             {/* Видимая часть объекта */}
             {hovered ? (
                 <>
@@ -862,8 +887,8 @@ const InteractiveObject = ({ position, data }) => {
                                 <div className={'flex-col gap-0.5'}>
                                     {list.title}
                                     {list.items.map((item, idx) => (
-                                        <div className={'font-medium text-sm'}>{idx+1}. {item}</div>
-                                        ))}
+                                        <div className={'font-medium text-sm'}>{idx + 1}. {item}</div>
+                                    ))}
                                 </div>
                             }
                             </div>
@@ -872,20 +897,21 @@ const InteractiveObject = ({ position, data }) => {
                 </>
             ) : (
                 <>
-                    <sphereGeometry args={[0.1, 32, 32]} />
-                    <meshBasicMaterial color='black' />
+
                 </>
             )}
 
             <mesh>
-                <sphereGeometry args={[0.8, 32, 32]} /> {/* Увеличиваем радиус */}
-                <meshBasicMaterial transparent opacity={0} /> {/* Делаем её невидимой */}
+                <sphereGeometry args={[0.85, 32, 32]}/>
+                {/* Увеличиваем радиус */}
+                <meshBasicMaterial transparent opacity={0}/>
+                {/* Делаем её невидимой */}
             </mesh>
         </mesh>
     );
 };
 
-function StaticCollider({ object, currentRoomData }: { object: THREE.Object3D,currentRoomData:any }) {
+function StaticCollider({object, currentRoomData}: { object: THREE.Object3D, currentRoomData: any }) {
     // const [showModals,setShowModals]=useState(true)
     const getGlobalTransform = (obj: THREE.Object3D) => {
         const position = new THREE.Vector3();
