@@ -1093,10 +1093,6 @@ function Scene() {
         }
     }, [room_name]);
 
-    const canvas = useRef()
-    canvas?.current?.addEventListener('touchmove', function(event) {
-        event.preventDefault();
-    }, { passive: false });
 
     const isMobile = width <= 768;
 
