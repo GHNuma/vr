@@ -1131,7 +1131,7 @@ function Scene() {
 
             </Canvas>
             {!active && <div
-                className={`absolute ${isMobile ?'p-3' : 'p-1'} top-5 left-5 bg-white bg-opacity-70 flex justify-center items-center rounded-md border border-b-gray-100 cursor-pointer`}
+                className={` z-50 fixed ${isMobile ?'p-3' : 'p-1'} top-5 left-5 bg-white bg-opacity-70 flex justify-center items-center rounded-md border border-b-gray-100 cursor-pointer select-none`}
                 onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
