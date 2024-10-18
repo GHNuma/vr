@@ -838,7 +838,7 @@ const InteractiveObject = ({ position, data }) => {
     const {headerText,list,text}=data
     const sphereRef = useRef();
     const outlineRef = useRef();
-    const [hovered, setHovered] = useState(true);
+    const [hovered, setHovered] = useState(false);
 
     const newPosition = [position[0], position[1] + 0.09, position[2]];
 
@@ -846,7 +846,7 @@ const InteractiveObject = ({ position, data }) => {
         if (sphereRef.current) {
             // Проверяем пересечение с большой невидимой сферой
             const intersects = raycaster.intersectObject(sphereRef.current);
-            setHovered(!(intersects.length > 0));
+            setHovered((intersects.length > 0));
                 const elapsedTime = clock.getElapsedTime();
                 const scaleFactor = hovered ? 1.3 + Math.sin(elapsedTime * 3) * 0.2 : 1;
                 outlineRef.current.scale.set(scaleFactor, scaleFactor, scaleFactor);
@@ -858,20 +858,20 @@ const InteractiveObject = ({ position, data }) => {
         <mesh
             position={newPosition}
             ref={sphereRef}
-            scale={hovered ? [0.2, 0.2, 0.2] : [0.3, 0.3, 0.3]}  // Увеличение при наведении
+            scale={!hovered ? [0.2, 0.2, 0.2] : [0.3, 0.3, 0.3]}  // Увеличение при наведении
 
         >
                 <sphereGeometry args={[0.09, 32, 32]}/>
-                <meshStandardMaterial color={hovered ? '#e14fb0' : 'rgb(203,255,30)'}/>
+                <meshStandardMaterial color={!hovered ? '#e14fb0' : 'rgb(203,255,30)'}/>
 
             {/* Контур вокруг сферы */}
             <mesh ref={outlineRef}>
                 <sphereGeometry args={[0.095, 32, 32]}/>
                 {/* Радиус чуть больше основной сферы */}
                 <meshBasicMaterial
-                    color={hovered ?  'gray' : 'rgb(154,248,66)'}
+                    color={!hovered ?  'gray' : 'rgb(154,248,66)'}
                     transparent
-                    opacity={hovered ? 0.6 : 1}  // Прозрачность меняется при наведении
+                    opacity={!hovered ? 0.6 : 1}  // Прозрачность меняется при наведении
                     wireframe // Чтобы контур был видимым
                 />
             </mesh>
@@ -882,7 +882,7 @@ const InteractiveObject = ({ position, data }) => {
                 <meshBasicMaterial transparent opacity={0}/>
             </mesh>
             {/* Видимая часть объекта */}
-            {!hovered ? (
+            {hovered ? (
                 <>
                     <Html center>
                         <div style={{
@@ -1115,7 +1115,7 @@ function Scene() {
     return (
         <div style={{height: '100%', width: '100%'}} className={'select-none'}>
             <Canvas shadows camera={{fov: 75}}>
-                {/*<Perf position="top-left" />*/}
+                <Perf position="top-left" />
                 <ambientLight intensity={3.5}/>
                 <pointLight position={[0, 3, 2]}/>
                 <pointLight position={[0, 3, 0.7]}/>
