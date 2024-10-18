@@ -4,7 +4,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">-->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <title>BI MVP </title>
+    <style type="text/css">
+      body{
+        margin:0px;
+        padding: 0px;
+      }
+    </style>
+    <script>
+      window.addEventListener("load",function() {
+        // Set a timeout...
+        setTimeout(function(){
+          // Hide the address bar!
+          window.scrollTo(0, 1);
+        }, 0);
+      });
+
+      var preventDefault = function(e) {
+        e.preventDefault();
+        return false;
+      };
+      document.addEventListener('touchmove',preventDefault,false);
+      document.body.addEventListener('touchmove',preventDefault,true);
+      window.addEventListener('touchmove',preventDefault,true);
+    </script>
     <title>BI MVP</title>
   </head>
   <body>
