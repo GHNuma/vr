@@ -16,9 +16,7 @@ body {
   overflow: hidden;
 }
 
-@media only screen and (max-width: 989px){
-  .header__icon--search { display: none; }
-}
+
 
 .loader{
   transform: scale(2);
