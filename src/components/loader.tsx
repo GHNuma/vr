@@ -13,7 +13,6 @@ const TextedLoader = () => {
         "Добавляем интерьер",
         "Оптимизация освещения",
         "Корректировка светотеней",
-        "Моделирование рабочего процесса",
         "Рассмотрение альтернатив",
         "Добавляем персонажа",
         "Извлечение данных",
@@ -50,7 +49,8 @@ const TextedLoader = () => {
             x: 50,
             y: yOffset,
             "font-size": 18,
-            "font-family": "Arial"
+            "font-family": "Arial",
+            width:'1000px !important',
         });
         text.appendChild(document.createTextNode(phrase + "..."));
         return text;
@@ -143,7 +143,6 @@ const TextedLoader = () => {
             if (now - start_time < 30000 && upwardMovingGroup.currentY > -710) {
                 requestAnimationFrame(animateLoading);
             } else {
-                // Reset the animation
                 upwardMovingGroup.currentY = 0;
                 phrasesContainerRef.current.innerHTML = ""; // Clear previous phrases
                 addPhrasesToDocument(shuffleArray([...phrases])); // Add new phrases
@@ -162,10 +161,10 @@ const TextedLoader = () => {
     }, []);
 
     return (
-        <div id="loader-wrapper">
-            <div id="page">
-                <div id="phrase_box">
-                    <svg width="100%" height="100%">
+        <div id="loader-wrapper" className={'!w-screen !flex !justify-center !items-center'}>
+            <div id="page" className={'!w-full !flex !justify-center !items-center'}>
+                <div id="phrase_box" className={'!w-full !flex !justify-center !items-center'}>
+                    <svg height="100%" className={' !flex !justify-center !items-center '}>
                         <defs>
                             <style type="text/css">
                                 {`
@@ -175,8 +174,8 @@ const TextedLoader = () => {
                   }
                 `}
                             </style>
-                            <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
-                                <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
+                            <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" className={'!w-full'}>
+                                <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1" className={'!w-full'}>
                                     <stop stopColor="white" stopOpacity="0" offset="0%" />
                                     <stop stopColor="white" stopOpacity="1" offset="30%" />
                                     <stop stopColor="white" stopOpacity="1" offset="70%" />
@@ -185,8 +184,8 @@ const TextedLoader = () => {
                                 <rect width="100%" height="100%" fill="url(#linearGradient)" />
                             </mask>
                         </defs>
-                        <g width="100%" height="100%" style={{ mask: "url(#mask)" }}>
-                            <g ref={phrasesContainerRef} id="phrases"></g>
+                        <g  style={{ mask: "url(#mask)" }} className={'!w-full !flex !justify-center !items-center'}>
+                            <g ref={phrasesContainerRef} id="phrases" className={'!w-full !flex !justify-center !items-center'}></g>
                         </g>
                     </svg>
                 </div>

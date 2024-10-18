@@ -4,13 +4,15 @@
 
 $primary-color: #ade746;
 @import 'loaders.css/src/animations/ball-clip-rotate-multiple.scss';
-
+.root {
+  min-height: 100%;
+}
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 100vw;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .loader{
