@@ -490,19 +490,27 @@ function CameraController({isMobile}) {
             const handleKeyDown = (event: KeyboardEvent) => {
                 switch (event.key) {
                     case 'w':
+                    case 'W':
                     case 'ц':
+                    case 'Ц':
                         keys.forward = true;
                         break;
                     case 's':
+                    case 'S':
                     case 'ы':
+                    case 'Ы':
                         keys.backward = true;
                         break;
                     case 'a':
+                    case 'A':
                     case 'ф':
+                    case 'Ф':
                         keys.left = true;
                         break;
                     case 'd':
+                    case 'D':
                     case 'в':
+                    case 'В':
                         keys.right = true;
                         break;
                     // case 'ArrowUp':
@@ -523,22 +531,30 @@ function CameraController({isMobile}) {
             const handleKeyUp = (event: KeyboardEvent) => {
                 switch (event.key) {
                     case 'w':
+                    case 'W':
                     case 'ц':
+                    case 'Ц':
                         keys.forward = false;
                         break;
                     case 's':
+                    case 'S':
                     case 'ы':
+                    case 'Ы':
                         keys.backward = false;
                         break;
                     case 'a':
+                    case 'A':
                     case 'ф':
+                    case 'Ф':
                         keys.left = false;
                         break;
                     case 'd':
+                    case 'D':
                     case 'в':
+                    case 'В':
                         keys.right = false;
                         break;
-                    case 'ArrowUp':
+                    // case 'ArrowUp':
                     // case 'ArrowDown':
                     //     arrowDeltaY = 0;
                     //     break;
@@ -1122,7 +1138,7 @@ function Scene() {
                     document.exitPointerLock();
                     navigate('/')
                 }}
-                onTouchEndCapture={(e)=>{
+                onTouchEnd={(e)=>{
                     e.preventDefault()
                     e.stopPropagation()
                     document.exitPointerLock();
