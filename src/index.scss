@@ -13,14 +13,12 @@ body {
   place-items: center;
   min-width: 100vw;
   min-height: 100%;
-overflow: hidden;
+  overflow: hidden;
 }
 
-#search-form { float:right; margin:61px 0 auto 16px; position:relative;}
-#search-form .search-text-box, #search-form2 .search-text-box2 { background-color: #f3f3f3;  background-image: url(./images/search-icon.png); background-position: 12px 50%; background-repeat: no-repeat; border: 0 none; border-radius: 18px; box-shadow: none; color: transparent; cursor: text; font-size: 13px; color:#444; height:18px; line-height: 18px; padding: 7px 5px 8px 30px; transition: all 0.3s ease-in-out 0s; width: 1px;}
-#search-form2 { display:none; position:relative; }
-#search-form2 .search-text-box2 { width:0px; margin:auto; position:relative; }
-#header.super-fixed #search-form { margin-top:29px;}
+@media only screen and (max-width: 989px){
+  .header__icon--search { display: none; }
+}
 
 .loader{
   transform: scale(2);
