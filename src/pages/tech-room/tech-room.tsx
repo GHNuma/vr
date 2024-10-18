@@ -1156,7 +1156,7 @@ function Scene() {
 const TechRoom: FC<any> = (any) => {
 
     return (
-        <div style={{width: '100vw', height: '100vh', position: 'relative'}}>
+        <div style={{width: '100vw', height: '100vh', position: 'relative',overflow:'hidden'}}>
             <Scene/>
         </div>
     );
