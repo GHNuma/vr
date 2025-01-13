@@ -1,5 +1,5 @@
 import {lazy} from "react";
 
 export const techRoomPage = {
-    Component: lazy(() => import('./tech-room.tsx')),
+    Component: lazy(() => import('./new-tech-room.tsx')),
 }

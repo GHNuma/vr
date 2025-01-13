@@ -14,5 +14,11 @@ export const routes = createBrowserRouter([
         element: <techRoomPage.Component/>,
         children: [
         ]
+    },
+    {
+        path: '/techroom/:room_name',
+        element: <techRoomPage.Component/>,
+        children: [
+        ]
     }
 ])
