@@ -37,7 +37,6 @@ const ColliderBox: React.FC<{
         args: preparedSize,
         quaternion: quaternionValues,
     }));
-
     return (
         <group>
             <primitive object={mesh} ref={ref} scale={scale.toArray()} position={preparedPosition} />
@@ -47,9 +46,12 @@ const ColliderBox: React.FC<{
 };
 
 const StaticCollider: React.FC<StaticColliderProps> = ({ object, currentRoomData }) => {
+    console.log(currentRoomData?.modals[1].name)
 
     if (object instanceof THREE.Mesh) {
         const modalData = currentRoomData?.modals.find((modal) => modal.name === object.name) || null;
+        console.log(object.name)
+
         return <ColliderBox mesh={object} modalData={modalData} />;
     }
 

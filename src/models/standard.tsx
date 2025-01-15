@@ -36,18 +36,53 @@ export function StandardModel(props: StandardModelProps) {
 
     const currentRoomData = ModalsInRooms.find((roomData) => roomData.name === "STANDARD");
 
-    useEffect(() => {
+    const tablePlay= ()=>{
         if (tableActions?.Animation) {
             tableActions.Animation.play();
         }
+    }
 
-    }, [tableActions]);
+    const tableStop= ()=>{
+        if (tableActions?.Animation) {
+            tableActions.Animation.stop();
+        }
+    }
 
-    useEffect(() => {
+    const windowPlay= ()=>{
         if (windowActions?.Animation) {
             windowActions.Animation.play();
         }
-    }, [windowActions]);
+    }
+
+    const windowStop= ()=>{
+        if (windowActions?.Animation) {
+            windowActions.Animation.stop();
+        }
+    }
+
+    const acousticPlay= ()=>{
+        if (acousticActions?.Animation) {
+            acousticActions.Animation.play();
+        }
+    }
+
+    const acousticStop= ()=>{
+        if (acousticActions?.Animation) {
+            acousticActions.Animation.stop();
+        }
+    }
+    // useEffect(() => {
+    //     if (tableActions?.Animation) {
+    //         tableActions.Animation.play();
+    //     }
+    //
+    // }, [tableActions]);
+
+    // useEffect(() => {
+    //     if (windowActions?.Animation) {
+    //         windowActions.Animation.play();
+    //     }
+    // }, [windowActions]);
 
     useEffect(() => {
         if (acousticActions?.Animation) {
@@ -75,7 +110,7 @@ export function StandardModel(props: StandardModelProps) {
     );
 }
 
-useGLTF.preload("/models/STANDARD.glb");
-useGLTF.preload("/animations/STANDARD_TABLE.glb");
-useGLTF.preload("/animations/STANDARD_WINDOW.glb");
-useGLTF.preload("/animations/STANDARD_ACOUSTIC.glb");
+// useGLTF.preload("/models/STANDARD.glb");
+// useGLTF.preload("/animations/STANDARD_TABLE.glb");
+// useGLTF.preload("/animations/STANDARD_WINDOW.glb");
+// useGLTF.preload("/animations/STANDARD_ACOUSTIC.glb");

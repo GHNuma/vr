@@ -11,13 +11,14 @@ import { PremiumModel } from "../models/premium.tsx";
 import { BusinessModel } from "../models/business.tsx";
 import { ComfortModel } from "../models/comfort.tsx";
 import {useProgress} from "@react-three/drei";
+import {useTranslation} from "react-i18next";
 
 const Scene: React.FC = () => {
     const { room_name } = useParams<{ room_name: string }>();
     const navigate = useNavigate();
     const [width, setWidth] = useState<number>(window.innerWidth);
     const { active } = useProgress();
-
+    const {i18n}=useTranslation()
     useEffect(() => {
         function handleWindowSizeChange() {
             setWidth(window.innerWidth);
@@ -46,20 +47,41 @@ const Scene: React.FC = () => {
         }
     })();
 
+    const changeLanguage = (e:React.MouseEvent | React.TouchEvent,lng:string)=>{
+        e.preventDefault()
+        e.stopPropagation()
+        i18n.changeLanguage(lng)
+    }
     return (
-        <div style={{ height: "100%", width: "100%" }} className={"select-none"}>
-            <Canvas shadows camera={{ fov: 75 }}>
-                <Perf position="top-left" />
-                <ambientLight intensity={3.5} />
-                <pointLight position={[0, 3, 2]} />
-                <pointLight position={[0, 3, 0.7]} />
+        <div style={{height: "100%", width: "100%"}} className={"select-none"}>
+            <Canvas shadows camera={{fov: 75}}>
+                <Perf position="top-left"/>
+                <ambientLight intensity={3.5}/>
+                <pointLight position={[0, 3, 2]}/>
+                <pointLight position={[0, 3, 0.7]}/>
                 <Physics gravity={[0, 0, 0]}>
-                    <Suspense fallback={<LoadingAnimation />}>
-                        {ModelComponent && <ModelComponent />}
+                    <Suspense fallback={<LoadingAnimation/>}>
+                        {ModelComponent && <ModelComponent/>}
                     </Suspense>
-                    <CameraController isMobile={isMobile} />
+                    <CameraController isMobile={isMobile}/>
                 </Physics>
             </Canvas>
+            <div
+                className="flex gap-1 items-center absolute top-4 right-4 bg-gray-200 bg-opacity-30 z-50 rounded-lg">
+                <p className={`${i18n.language==='kz' && 'bg-gray-400'} font-medium text-sm border-r-gray-50 cursor-pointer hover:scale-110 hover:bg-gray-600 rounded-lg p-2`}
+                   onClick={(e) => changeLanguage(e,'kz')}
+                   onTouchStart={(e)=>changeLanguage(e,'kz')}
+                >
+                    KZ
+                </p>
+                <div className='h-4 w-[1px] bg-gray-50'/>
+                <p className={`${i18n.language==='ru' && 'bg-gray-400'} font-medium text-sm border-l-gray-50 cursor-pointer hover:scale-110 hover:bg-gray-600 rounded-lg p-2`}
+                   onClick={(e) => changeLanguage(e,'ru')}
+                   onTouchStart={(e)=>changeLanguage(e,'ru')}
+                >
+                    RU
+                </p>
+            </div>
             {/* Кнопка для выхода */}
             {!active && (
                 <div

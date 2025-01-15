@@ -71,6 +71,6 @@ export function PremiumModel(props:PremiumModelProps) {
     );
 }
 
-useGLTF.preload('/models/PREMIUM.glb')
-useGLTF.preload("/animations/PREMIUM_DOOR.glb");
-useGLTF.preload("/animations/PREMIUM_FLOOR.glb");
+// useGLTF.preload('/models/PREMIUM.glb')
+// useGLTF.preload("/animations/PREMIUM_DOOR.glb");
+// useGLTF.preload("/animations/PREMIUM_FLOOR.glb");

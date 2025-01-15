@@ -70,6 +70,6 @@ export function ComfortModel(props:ComfortModelProps) {
     );
 }
 
-useGLTF.preload('/models/COMFORT.glb')
-useGLTF.preload("/animations/COMFORT_HATCH.glb");
-useGLTF.preload("/animations/COMFORT_WALL.glb");
+// useGLTF.preload('/models/COMFORT.glb')
+// useGLTF.preload("/animations/COMFORT_HATCH.glb");
+// useGLTF.preload("/animations/COMFORT_WALL.glb");

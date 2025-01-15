@@ -68,6 +68,6 @@ export function BusinessModel(props:BusinessModelProps) {
     );
 }
 
-useGLTF.preload('/models/BUSINESS.glb')
-useGLTF.preload("/animations/BUSINESS_FLOOR.glb");
-useGLTF.preload("/animations/BUSINESS_VALVE.glb");
+// useGLTF.preload('/models/BUSINESS.glb')
+// useGLTF.preload("/animations/BUSINESS_FLOOR.glb");
+// useGLTF.preload("/animations/BUSINESS_VALVE.glb");

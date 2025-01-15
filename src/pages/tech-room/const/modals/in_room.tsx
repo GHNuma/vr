@@ -1,3 +1,5 @@
+import {i18n} from "i18next";
+
 export interface ModalData {
     name: string;
     modals: EachModal[]
@@ -16,7 +18,8 @@ const ModalsInRooms:ModalData[]=[
         name:'PREMIUM',
         modals: [
             {
-                name: "Text028",
+                // name: "Text028",
+                name: "Cube185_1",
                 headerText:'Плавающий пол',
                 text: 'Он снижает распространение бытового\n' +
                     'ударного шума (падение предметов на\n' +
