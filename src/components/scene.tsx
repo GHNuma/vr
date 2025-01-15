@@ -54,7 +54,7 @@ const Scene: React.FC = () => {
     }
     return (
         <div style={{height: "100%", width: "100%"}} className={"select-none"}>
-            <Canvas shadows camera={{fov: 75}}>
+            <Canvas shadows camera={{fov: 75}} frameloop='demand'>
                 <Perf position="top-left"/>
                 <ambientLight intensity={3.5}/>
                 <pointLight position={[0, 3, 2]}/>
