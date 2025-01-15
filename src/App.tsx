@@ -1,6 +1,7 @@
 import {routes} from "./router.tsx";
 import {Suspense} from "react";
 import {RouterProvider} from "react-router-dom";
+import {useGLTF} from "@react-three/drei";
 
 function App() {
     return (
@@ -11,5 +12,8 @@ function App() {
         </Suspense>
     );
 }
-
+useGLTF.preload("/models/STANDARD.glb");
+useGLTF.preload('/models/COMFORT.glb')
+useGLTF.preload("/models/BUSINESS.glb");
+useGLTF.preload('/models/PREMIUM.glb')
 export default App;
