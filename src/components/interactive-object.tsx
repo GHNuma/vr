@@ -8,9 +8,12 @@ interface InteractiveObjectProps {
     position: [number, number, number];
     data: EachModal
     linkAR:string
+    isAnimationPlaying?: boolean;
+    toggleAnimation?: () => void;
 }
 
-const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data,linkAR }) => {
+const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data,linkAR,  isAnimationPlaying,
+                                                                 toggleAnimation }) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const { headerText, list, text, } = data;
@@ -121,6 +124,17 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data,li
                             <div onClick={handleNavigation} style={{cursor: "pointer"}}>
                                 <span className="material-symbols-outlined">view_in_ar</span>
                             </div>
+
+                            {toggleAnimation && (
+                                <button onClick={toggleAnimation}>
+                                    {isAnimationPlaying ? <span className="material-symbols-outlined">
+stop_circle
+</span> :
+                                        <span className="material-symbols-outlined">
+motion_play
+</span>}
+                                </button>
+                            )}
                         </div>
 
                         <audio ref={audioRef} src="/audios/example.wav"/>

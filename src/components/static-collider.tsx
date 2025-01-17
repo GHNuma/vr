@@ -10,7 +10,7 @@ interface StaticColliderProps {
     currentRoomData?: ModalData;
 }
 
-const ColliderBox: React.FC<{
+export const ColliderBox: React.FC<{
     mesh: THREE.Mesh;
     modalData: EachModal | null;
     linkAR:string
