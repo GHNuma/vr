@@ -3,17 +3,17 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import {useFrame} from "@react-three/fiber";
 import {EachModal} from "../pages/tech-room/const/modals/in_room.tsx";
-import {Link, Navigate, NavLink} from "react-router-dom";
 
 interface InteractiveObjectProps {
     position: [number, number, number];
     data: EachModal
+    linkAR:string
 }
 
-const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data }) => {
-    const [isPlaying, setIsPlaying] = useState(false); // State to track playback status
+const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data,linkAR }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
 
-    const { headerText, list, text } = data;
+    const { headerText, list, text, } = data;
     const sphereRef = useRef<THREE.Mesh>(null);
     const outlineRef = useRef<THREE.Mesh>(null);
     const [hovered, setHovered] = useState(false);
@@ -48,7 +48,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data })
 
     const handleNavigation = () => {
         window.open(
-            "https://www.augmented-minds.com/en/augmented-reality/try-out-ar-examples/",
+            linkAR,
             "_blank",
             "noopener,noreferrer"
         );

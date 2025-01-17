@@ -12,8 +12,10 @@ function App() {
         </Suspense>
     );
 }
-useGLTF.preload("/models/STANDARD.glb");
-useGLTF.preload('/models/COMFORT.glb')
-useGLTF.preload("/models/BUSINESS.glb");
-useGLTF.preload('/models/PREMIUM.glb')
+// useGLTF.preload("/models/STANDARD.glb");
+// useGLTF.preload('/models/COMFORT.glb')
+// useGLTF.preload("/models/BUSINESS.glb");
+// useGLTF.preload('/models/PREMIUM.glb')
+useGLTF.preload("/animations/BUSINESS_FLOOR.glb");
+
 export default App;

@@ -31,7 +31,6 @@ const Scene: React.FC = () => {
 
     const isMobile = width <= 768;
 
-    // Выбираем модель на основе room_name
     const ModelComponent = (() => {
         switch (room_name) {
             case "standard":

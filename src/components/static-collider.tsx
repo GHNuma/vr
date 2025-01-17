@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { useBox } from "@react-three/cannon";
 import InteractiveObject from "./interactive-object";
 import { EachModal, ModalData } from "../pages/tech-room/const/modals/in_room";
+import {useTranslation} from "react-i18next";
 
 interface StaticColliderProps {
     object: THREE.Object3D;
@@ -12,7 +13,23 @@ interface StaticColliderProps {
 const ColliderBox: React.FC<{
     mesh: THREE.Mesh;
     modalData: EachModal | null;
-}> = ({ mesh, modalData }) => {
+    linkAR:string
+}> = ({ mesh, modalData,linkAR }) => {
+    const { t } = useTranslation();
+    const translatedModalData = modalData
+        ? {
+            ...modalData,
+            headerText: modalData.headerText ? t(modalData.headerText) : undefined,
+            list: modalData.list
+                ? {
+                    ...modalData.list,
+                    title: t(modalData.list.title),
+                    items: modalData.list.items.map((item) => t(item)),
+                }
+                : undefined,
+        }
+        : null;
+
     if (!mesh.geometry.boundingBox) {
         mesh.geometry.computeBoundingBox();
     }
@@ -40,19 +57,17 @@ const ColliderBox: React.FC<{
     return (
         <group>
             <primitive object={mesh} ref={ref} scale={scale.toArray()} position={preparedPosition} />
-            {modalData && <InteractiveObject position={preparedPosition} data={modalData} />}
+            {translatedModalData && <InteractiveObject position={preparedPosition} data={translatedModalData} linkAR={linkAR} />}
         </group>
     );
 };
 
 const StaticCollider: React.FC<StaticColliderProps> = ({ object, currentRoomData }) => {
-    console.log(currentRoomData?.modals[1].name)
 
     if (object instanceof THREE.Mesh) {
         const modalData = currentRoomData?.modals.find((modal) => modal.name === object.name) || null;
-        console.log(object.name)
 
-        return <ColliderBox mesh={object} modalData={modalData} />;
+        return <ColliderBox mesh={object} modalData={modalData} linkAR={currentRoomData?.linkAR} />;
     }
 
     return (

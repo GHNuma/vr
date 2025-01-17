@@ -1,7 +1,7 @@
-import {i18n} from "i18next";
 
 export interface ModalData {
     name: string;
+    linkAR:string
     modals: EachModal[]
 }
 export interface EachModal {
@@ -16,10 +16,54 @@ export interface EachModal {
 const ModalsInRooms:ModalData[]=[
     {
         name:'PREMIUM',
+        linkAR:'https://newq.me/BI/GROUP/4.php',
         modals: [
             {
-                // name: "Text028",
-                name: "Cube185_1",
+                name: "Plane104",
+                headerText: 'modals.premium.ip_video_phone',
+            },
+            {
+                name: "Bronze_valve106",
+                headerText:'modals.premium.water_pipe.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.mag_pipe','modals.premium.gor_raz','modals.premium.balloon_cran','modals.premium.pribor']
+                }
+            },
+            {
+                name: "Bronze_valve114",
+                headerText:'modals.premium.hot_connect.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.hot_connect.collector','modals.premium.hot_connect.ballon_cran','modals.premium.hot_connect.balance']
+                }
+            },
+            {
+                name: "Cube009",
+                headerText:'modals.premium.electro_door',
+            },
+            {
+                name: "Plane110",
+                headerText:'modals.premium.floor.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.floor.plita','modals.premium.floor.acoust','modals.premium.floor.polit','modals.premium.floor.fibro']
+                }
+            },
+            {
+                name: "Cylinder341",
+                headerText:'modals.premium.chkaf',
+            },
+            {
+                name: "Text095",
+                headerText:'modals.premium.acoustic.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.acoustic.gips','modals.premium.acoustic.plita','modals.premium.acoustic.gaz']
+                }
+            },
+            {
+                name: "Text028",
                 headerText:'Плавающий пол',
                 text: 'Он снижает распространение бытового\n' +
                     'ударного шума (падение предметов на\n' +
@@ -114,98 +158,172 @@ const ModalsInRooms:ModalData[]=[
     },
     {
         name:'BUSINESS',
+        linkAR:'https://newq.me/BI/GROUP/3.php',
         modals:[
             {
-                name: "Text010",
-                headerText:'Плавающий пол',
-                text: 'Он снижает распространение бытового\n' +
-                    'ударного шума (падение предметов на\n' +
-                    'пол, детские игры с мячом) в ЖК.\n',
+                name: "Plane092_2",
+                headerText: 'modals.business.ip_video_phone',
+            },
+            {
+                name: "Bronze_valve082",
+                headerText:'modals.business.water_pipe.name',
                 list:{
                     title:'Состав:',
-                    items:['Плита перекрытия','Виброшумоизоляционный материал\n' +
-                    '(Минераловатная плита)\n','Полиэтиленовая пленка','Фибростяжка']
+                    items:['modals.business.mag_pipe','modals.business.gor_raz','modals.business.balloon_cran','modals.business.pribor']
                 }
             },
             {
-                name:"Text018",
-                headerText:"Acoustic Pro",
-                text:"В классе Бизнес используется технология\n" +
-                    "шумоизоляции Acoustic Pro.\n" +
-                    "Acoustic Pro это- межквартирные перегородки из\n" +
-                    "газобетонного блока.\n",
+                name: "Bronze_valve092",
+                headerText:'modals.business.hot_connect.name',
                 list:{
-                    title:"Состав:",
-                    items:['ГКЛ по 12,5 мм (2 слоя)','Минеральная плита 50 мм','Газоблок 100 мм','Минеральная вата 50 мм','ГКЛ по 12,5 мм (2 слоя)']
+                    title:'Состав:',
+                    items:['modals.business.hot_connect.collector','modals.business.hot_connect.ballon_cran','modals.business.hot_connect.balance']
                 }
             },
             {
-                name:"Cube083_1",
-                headerText:"Помещение: высота потолков, размеры окон",
-                text:"Высота потолков – 3 м.\n" +
-                    "Увеличенные оконные проёмы с\n" +
-                    "высотой в среднем около 2,1м.\n" +
-                    "Окна: 5-камерный\n" +
-                    "металлопластиковый профиль с\n" +
-                    "заполнением, двухкамерный\n" +
-                    "стеклопакет, энергосберегающее\n" +
-                    "покрытие\n" +
-                    "(в Бизнес+ профиль может быть\n" +
-                    "7- камерным)\n" +
-                    "Высота подоконника 60 см\n",
+                name: "Cube128",
+                headerText:'modals.business.electro_door',
             },
             {
-                name:"Cube076",
-                headerText:"Радиаторы, приточные клапаны",
-                text:"Мы применяем стальные панельные радиаторы, высотой 400 мм а также вертикальные радиаторы.\n" +
-                    "Подводка трубопроводов к приборам отопления в домах выполняется из стены.\n",
-            },
-            {
-                name:"Plane050_2",
-                headerText:"Система умного дома",
-                text:"Квартиры бизнес-класса оснащаются системой умного дома. Управлять системой Умный дом можно через\n" +
-                    "приложение Connected Home.\n",
-                list: {
-                    title:"Центральный котроллер Wallee разработан специально для BI Group. Все датчики и исполнительные\n" +
-                        "устройства подключаются к Wallee:\n",
-                    items:['Беспроводной датчик протечки','Беспроводной датчик дыма с сиреной','Проводной датчик двери','Проводной датчик движения']
+                name: "Text070",
+                headerText:'modals.business.floor.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.business.floor.plita','modals.business.floor.acoust','modals.business.floor.polit','modals.business.floor.fibro']
                 }
             },
             {
-                name:"Cube076_2",
-                headerText:"Места общего пользования",
-                text:"На этажах размещены ниши инженерных сетей\n" +
-                    "Внешние входные группы ЖК имеют домофонные\n" +
-                    "системы с распознаванием лица.\n" +
-                    "Отделка мест общего пользования выполняется по\n" +
-                    "индивидуальному дизайн-проекту.\n" +
-                    "На типовых и первых этажах имеются картины. Дизайн\n" +
-                    "первых этажей дополнен декоративными элементами,\n" +
-                    "зонами ожидания с мебелью, а также кашпо.\n" +
-                    "Осуществляется наблюдение службой охраны 24/7 за\n" +
-                    "происходящим в ЖК.\n",
+                name: "Text068",
+                headerText:'modals.business.chkaf',
             },
-            {
-                name:"Plane032_2",
-                headerText:"Отделка квартиры",
-                list: {
-                    title:"Квартира Бизнес-класса сдается в\n" +
-                        "улучшенной черновой отделке:\n",
-                    items:['отделка стен гипсовыми штукатурными\n' +
-                    'смесями\n','стяжка пола','потолки без отделки','установлены подоконники','электроразводка с оптимальным\n' +
-                    'количеством розеток и освещения. В\n' +
-                    'прихожей установлен щиток\n','лучевая разводка водоснабжения с\n' +
-                    'установкой запорной арматуры и\n' +
-                    'приборов учета\n','приточные клапаны для естественной\n' +
-                    'вентиляции\n','ниша в прихожей для модема','внутреннее вид']
-                }
-            }
+            // {
+            //     name: "Text010",
+            //     headerText:'Плавающий пол',
+            //     text: 'Он снижает распространение бытового\n' +
+            //         'ударного шума (падение предметов на\n' +
+            //         'пол, детские игры с мячом) в ЖК.\n',
+            //     list:{
+            //         title:'Состав:',
+            //         items:['Плита перекрытия','Виброшумоизоляционный материал\n' +
+            //         '(Минераловатная плита)\n','Полиэтиленовая пленка','Фибростяжка']
+            //     }
+            // },
+            // {
+            //     name:"Text018",
+            //     headerText:"Acoustic Pro",
+            //     text:"В классе Бизнес используется технология\n" +
+            //         "шумоизоляции Acoustic Pro.\n" +
+            //         "Acoustic Pro это- межквартирные перегородки из\n" +
+            //         "газобетонного блока.\n",
+            //     list:{
+            //         title:"Состав:",
+            //         items:['ГКЛ по 12,5 мм (2 слоя)','Минеральная плита 50 мм','Газоблок 100 мм','Минеральная вата 50 мм','ГКЛ по 12,5 мм (2 слоя)']
+            //     }
+            // },
+            // {
+            //     name:"Cube083_1",
+            //     headerText:"Помещение: высота потолков, размеры окон",
+            //     text:"Высота потолков – 3 м.\n" +
+            //         "Увеличенные оконные проёмы с\n" +
+            //         "высотой в среднем около 2,1м.\n" +
+            //         "Окна: 5-камерный\n" +
+            //         "металлопластиковый профиль с\n" +
+            //         "заполнением, двухкамерный\n" +
+            //         "стеклопакет, энергосберегающее\n" +
+            //         "покрытие\n" +
+            //         "(в Бизнес+ профиль может быть\n" +
+            //         "7- камерным)\n" +
+            //         "Высота подоконника 60 см\n",
+            // },
+            // {
+            //     name:"Cube076",
+            //     headerText:"Радиаторы, приточные клапаны",
+            //     text:"Мы применяем стальные панельные радиаторы, высотой 400 мм а также вертикальные радиаторы.\n" +
+            //         "Подводка трубопроводов к приборам отопления в домах выполняется из стены.\n",
+            // },
+            // {
+            //     name:"Plane050_2",
+            //     headerText:"Система умного дома",
+            //     text:"Квартиры бизнес-класса оснащаются системой умного дома. Управлять системой Умный дом можно через\n" +
+            //         "приложение Connected Home.\n",
+            //     list: {
+            //         title:"Центральный котроллер Wallee разработан специально для BI Group. Все датчики и исполнительные\n" +
+            //             "устройства подключаются к Wallee:\n",
+            //         items:['Беспроводной датчик протечки','Беспроводной датчик дыма с сиреной','Проводной датчик двери','Проводной датчик движения']
+            //     }
+            // },
+            // {
+            //     name:"Cube076_2",
+            //     headerText:"Места общего пользования",
+            //     text:"На этажах размещены ниши инженерных сетей\n" +
+            //         "Внешние входные группы ЖК имеют домофонные\n" +
+            //         "системы с распознаванием лица.\n" +
+            //         "Отделка мест общего пользования выполняется по\n" +
+            //         "индивидуальному дизайн-проекту.\n" +
+            //         "На типовых и первых этажах имеются картины. Дизайн\n" +
+            //         "первых этажей дополнен декоративными элементами,\n" +
+            //         "зонами ожидания с мебелью, а также кашпо.\n" +
+            //         "Осуществляется наблюдение службой охраны 24/7 за\n" +
+            //         "происходящим в ЖК.\n",
+            // },
+            // {
+            //     name:"Plane032_2",
+            //     headerText:"Отделка квартиры",
+            //     list: {
+            //         title:"Квартира Бизнес-класса сдается в\n" +
+            //             "улучшенной черновой отделке:\n",
+            //         items:['отделка стен гипсовыми штукатурными\n' +
+            //         'смесями\n','стяжка пола','потолки без отделки','установлены подоконники','электроразводка с оптимальным\n' +
+            //         'количеством розеток и освещения. В\n' +
+            //         'прихожей установлен щиток\n','лучевая разводка водоснабжения с\n' +
+            //         'установкой запорной арматуры и\n' +
+            //         'приборов учета\n','приточные клапаны для естественной\n' +
+            //         'вентиляции\n','ниша в прихожей для модема','внутреннее вид']
+            //     }
+            // }
         ]
 
     },
     {
         name:'COMFORT',
+        linkAR:'https://newq.me/BI/GROUP/2.php',
         modals:[
+            {
+                name: "Plane019",
+                headerText: 'modals.comfort.ip_video_phone',
+            },
+            {
+                name: "Bronze_valve009",
+                headerText:'modals.comfort.water_pipe.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.comfort.mag_pipe','modals.comfort.gor_raz','modals.comfort.balloon_cran','modals.comfort.pribor']
+                }
+            },
+            {
+                name: "Bronze_valve013",
+                headerText:'modals.comfort.hot_connect.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.comfort.hot_connect.collector','modals.comfort.hot_connect.ballon_cran','modals.comfort.hot_connect.balance']
+                }
+            },
+            {
+                name: "Cube025",
+                headerText:'modals.comfort.electro_door',
+            },
+            {
+                name: "Plane001",
+                headerText:'modals.comfort.floor.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.comfort.floor.plita','modals.comfort.floor.acoust','modals.comfort.floor.polit','modals.comfort.floor.fibro']
+                }
+            },
+            {
+                name: "Text002",
+                headerText:'modals.comfort.chkaf',
+            },
             {
                 name: "Text004",
                 headerText:'Плавающий пол',
@@ -295,9 +413,58 @@ const ModalsInRooms:ModalData[]=[
     },
     {
         name:'STANDARD',
+        linkAR:'https://newq.me/BI/GROUP/1.php',
         modals:[
             {
+                name: "Plane071",
+                headerText: 'modals.standard.ip_video_phone',
+            },
+            {
+                name: "Bronze_valve060",
+                headerText:'modals.standard.water_pipe.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.standard.mag_pipe','modals.standard.gor_raz','modals.standard.balloon_cran','modals.standard.pribor']
+                }
+            },
+            {
+                name: "Bronze_valve070",
+                headerText:'modals.standard.hot_connect.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.standard.hot_connect.collector','modals.standard.hot_connect.ballon_cran','modals.standard.hot_connect.balance']
+                }
+            },
+            {
+                name: "DOOR_INS",
+                headerText:'modals.standard.electro_door',
+            },
+            {
+                name: "Text049",
+                headerText:'modals.standard.floor.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.standard.floor.plita','modals.standard.floor.acoust','modals.standard.floor.polit','modals.standard.floor.fibro']
+                }
+            },
+            {
+                name: "Text057",
+                headerText:'modals.standard.chkaf',
+            },
+            {
                 name: "Cube094",
+                headerText:'modals.standard.peregorodka_acoustic.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.standard.peregorodka_acoustic.gips','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gaz']
+                }
+            },
+            {
+                name: "HEAT_3",
+                headerText:'modals.standard.steel_radiator',
+            },
+            {
+                name: "Plane071",
                 headerText:'Шумоизоляция:\n' +
                     'перегородки\n',
                 text: 'В классе Стандарт межквартирные перегородки\n' +
