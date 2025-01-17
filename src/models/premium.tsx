@@ -75,7 +75,6 @@ export function PremiumModel(props:PremiumModelProps) {
     };
 
 
-    // Получение позиции двери
     const doorPosition = new THREE.Vector3();
     doorScene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
@@ -84,7 +83,6 @@ export function PremiumModel(props:PremiumModelProps) {
         }
     });
 
-    // Получение позиции пола
     const floorPosition = new THREE.Vector3();
     floorScene.traverse((child) => {
         if (child instanceof THREE.Mesh) {

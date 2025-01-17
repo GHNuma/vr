@@ -56,7 +56,7 @@ const ModalsInRooms:ModalData[]=[
                 headerText:'modals.premium.acoustic.name',
                 list:{
                     title:'Состав:',
-                    items:['modals.premium.acoustic.gips','modals.premium.acoustic.plita','modals.premium.acoustic.gaz']
+                    items:['modals.premium.acoustic.gips','modals.premium.acoustic.kirpich']
                 }
             },
             {
