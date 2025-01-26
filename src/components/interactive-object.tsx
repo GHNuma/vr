@@ -112,7 +112,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, l
                                 </div>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 py-2.5 px-1 bg-white bg-opacity-15 rounded-lg border-2 border-solid border-white">
                             {/* Аудио кнопка */}
                             <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
                                 {isPlaying ? (

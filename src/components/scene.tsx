@@ -34,12 +34,12 @@ const Scene: React.FC = () => {
 
     useEffect(() => {
         function handleKeyDown(e: KeyboardEvent) {
-            if (["w", "a", "s", "d"].includes(e.key.toLowerCase())) {
+            if (["w", "a", "s", "d","ц","ф","ы","в"].includes(e.key.toLowerCase())) {
                 setActiveKey(e.key.toLowerCase());
             }
         }
         function handleKeyUp(e: KeyboardEvent) {
-            if (["w", "a", "s", "d"].includes(e.key.toLowerCase())) {
+            if (["w", "a", "s", "d","ц","ф","ы","в"].includes(e.key.toLowerCase())) {
                 setActiveKey(null);
             }
         }
@@ -183,26 +183,32 @@ const Scene: React.FC = () => {
                     <div className="flex gap-2 justify-center">
                         <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
                             <div
-                                className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'w' ? 'bg-red-500 bg-opacity-50' : ''}`}>
-                                W
+                                className={`relative w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${(activeKey === 'w' ||activeKey === 'ц') ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                <p className='absolute text-[10px] top-0.5 right-1'>Ц</p>
+                                <p>W</p>
                             </div>
                         </div>
                     </div>
                     <div className="flex gap-2">
                         <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
                             <div
-                                className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'a' ? 'bg-red-500 bg-opacity-50' : ''}`}>
-                                A
+                                className={`relative w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${(activeKey === 'a' || activeKey === 'ф') ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                <p className='absolute text-[10px] top-0.5 right-1'>Ф</p>
+                                <p>A</p>
                             </div>
                         </div>
                         <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
-                            <div className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 's' ? 'bg-red-500 bg-opacity-50' : ''}`}>
-                                S
+                            <div
+                                className={`relative w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${(activeKey === 's' || activeKey === 'ы') ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                <p className='absolute text-[10px] top-0.5 right-1'>Ы</p>
+                               <p>S</p>
                             </div>
                         </div>
                         <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
-                            <div className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'd' ? 'bg-red-500 bg-opacity-50' : ''}`}>
-                                D
+                            <div
+                                className={`relative w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${(activeKey === 'd' || activeKey === 'в') ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                <p className='absolute text-[10px] top-0.5 right-1'>В</p>
+                                <p>D</p>
                             </div>
                         </div>
                     </div>
