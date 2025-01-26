@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Perf } from "r3f-perf";
 import { Physics } from "@react-three/cannon";
 import { Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,15 +9,19 @@ import { StandardModel } from "../models/standard.tsx";
 import { PremiumModel } from "../models/premium.tsx";
 import { BusinessModel } from "../models/business.tsx";
 import { ComfortModel } from "../models/comfort.tsx";
-import {useProgress} from "@react-three/drei";
-import {useTranslation} from "react-i18next";
+import { useProgress } from "@react-three/drei";
+import { useTranslation } from "react-i18next";
 
 const Scene: React.FC = () => {
     const { room_name } = useParams<{ room_name: string }>();
     const navigate = useNavigate();
     const [width, setWidth] = useState<number>(window.innerWidth);
     const { active } = useProgress();
-    const {i18n}=useTranslation()
+    const { i18n } = useTranslation();
+
+    const [activeKey, setActiveKey] = useState<string | null>(null);
+    // const [activeMouse, setActiveMouse] = useState<string | null>(null);
+
     useEffect(() => {
         function handleWindowSizeChange() {
             setWidth(window.innerWidth);
@@ -26,6 +29,38 @@ const Scene: React.FC = () => {
         window.addEventListener("resize", handleWindowSizeChange);
         return () => {
             window.removeEventListener("resize", handleWindowSizeChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if (["w", "a", "s", "d"].includes(e.key.toLowerCase())) {
+                setActiveKey(e.key.toLowerCase());
+            }
+        }
+        function handleKeyUp(e: KeyboardEvent) {
+            if (["w", "a", "s", "d"].includes(e.key.toLowerCase())) {
+                setActiveKey(null);
+            }
+        }
+        // function handleMouseDown(e: MouseEvent) {
+        //     if (e.button === 0) setActiveMouse("left");
+        //     if (e.button === 2) setActiveMouse("right");
+        // }
+        // function handleMouseUp() {
+        //     setActiveMouse(null);
+        // }
+
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);
+        // window.addEventListener("mousedown", handleMouseDown);
+        // window.addEventListener("mouseup", handleMouseUp);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keyup", handleKeyUp);
+            // window.removeEventListener("mousedown", handleMouseDown);
+            // window.removeEventListener("mouseup", handleMouseUp);
         };
     }, []);
 
@@ -46,11 +81,11 @@ const Scene: React.FC = () => {
         }
     })();
 
-    const changeLanguage = (e:React.MouseEvent | React.TouchEvent,lng:string)=>{
-        e.preventDefault()
-        e.stopPropagation()
-        i18n.changeLanguage(lng)
-    }
+    const changeLanguage = (e: React.MouseEvent | React.TouchEvent, lng: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        i18n.changeLanguage(lng);
+    };
     return (
         <div style={{height: "100%", width: "100%"}} className={"select-none"}>
             <Canvas shadows camera={{fov: 75}} frameloop='demand'>
@@ -143,8 +178,39 @@ const Scene: React.FC = () => {
                     />
                 </>
             )}
+            {!isMobile && (
+                <div className="fixed bottom-10 left-10 flex flex-col gap-2 justify-center ">
+                    <div className="flex gap-2 justify-center">
+                        <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
+                            <div
+                                className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'w' ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                W
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
+                            <div
+                                className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'a' ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                A
+                            </div>
+                        </div>
+                        <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
+                            <div className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 's' ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                S
+                            </div>
+                        </div>
+                        <div className='p-0.5 bg-white bg-opacity-20 rounded-lg'>
+                            <div className={`w-12 h-12 border-2 border-white text-center text-white font-bold flex items-center justify-center rounded-lg bg-opacity-20 bg-gray-500 ${activeKey === 'd' ? 'bg-red-500 bg-opacity-50' : ''}`}>
+                                D
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
+
 };
 
 export default Scene;

@@ -38,7 +38,7 @@ const ModalsInRooms:ModalData[]=[
                     items:['modals.premium.hot_connect.collector','modals.premium.hot_connect.ballon_cran','modals.premium.hot_connect.balance']
                 }
             },
-
+          
             {
                 name: "Plane110",
                 headerText:'modals.premium.floor.name',
