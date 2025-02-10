@@ -1,11 +1,11 @@
-import React, {useRef} from "react";
+import React from "react";
 import {useGLTF} from "@react-three/drei";
 import * as THREE from "three";
 import ModalsInRooms from "../pages/tech-room/const/modals/in_room.tsx";
 import StaticCollider from "../components/static-collider.tsx";
-import InteractiveObject from "../components/interactive-object.tsx";
-import { useTranslation } from "react-i18next";
-import Door, {DoorHandle} from "../components/door.tsx";
+// import InteractiveObject from "../components/interactive-object.tsx";
+// import { useTranslation } from "react-i18next";
+// import Door, {DoorHandle} from "../components/door.tsx";
 
 interface PremiumModelProps {
     position?: [number, number, number];
@@ -24,20 +24,20 @@ interface GLTFResult extends THREE.Object3D {
 
 export function PremiumModel(props: PremiumModelProps) {
     const { nodes } = useGLTF("/models/PREMIUM.glb") as unknown as GLTFResult;
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     // const doorAnimation = useGLTF("/animations/PREMIUM_DOOR.glb");
     // const { scene: doorScene } = doorAnimation;
 
 
-    const doorRef = useRef<DoorHandle>(null);
+    // const doorRef = useRef<DoorHandle>(null);
 
-    const toggleDoor = () => {
-        doorRef.current?.toggleDoor();
-    };
+    // const toggleDoor = () => {
+    //     doorRef.current?.toggleDoor();
+    // };
 
 
-    const doorPosition = new THREE.Vector3();
+    // const doorPosition = new THREE.Vector3();
     // doorScene.traverse((child) => {
     //     if (child instanceof THREE.Mesh) {
     //         child.updateMatrixWorld();
@@ -76,15 +76,15 @@ export function PremiumModel(props: PremiumModelProps) {
             {/*    />*/}
             {/*</group>*/}
 
-            <InteractiveObject
-                position={[doorPosition.x + 0.1, doorPosition.y, doorPosition.z]}
-                data={{
-                    name: "DOOR_INS",
-                    headerText: t("modals.premium.electro_door"),
-                }}
-                // linkAR="https://example.com"
-                toggleAnimation={toggleDoor}
-            />
+            {/*<InteractiveObject*/}
+            {/*    position={[doorPosition.x + 0.1, doorPosition.y, doorPosition.z]}*/}
+            {/*    data={{*/}
+            {/*        name: "DOOR_INS",*/}
+            {/*        headerText: t("modals.premium.electro_door"),*/}
+            {/*    }}*/}
+            {/*    // linkAR="https://example.com"*/}
+            {/*    toggleAnimation={toggleDoor}*/}
+            {/*/>*/}
         </group>
     );
 }
