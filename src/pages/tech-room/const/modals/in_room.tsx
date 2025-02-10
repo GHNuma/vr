@@ -6,6 +6,7 @@ export interface ModalData {
 }
 export interface EachModal {
     name: string;
+    audio?:string
     headerText?: string;
     text?: string;
     list?: {
@@ -19,45 +20,70 @@ const ModalsInRooms:ModalData[]=[
         linkAR:'https://newq.me/BI/GROUP/4.php',
         modals: [
             {
-                name: "Plane104",
+                name: "Plane008_1",
                 headerText: 'modals.premium.ip_video_phone',
             },
             {
-                name: "Bronze_valve106",
+                name: "Circle010",
                 headerText:'modals.premium.water_pipe.name',
                 list:{
                     title:'Состав:',
-                    items:['modals.premium.mag_pipe','modals.premium.gor_raz','modals.premium.balloon_cran','modals.premium.pribor']
+                    items:['modals.premium.water_pipe.mag_pipe','modals.premium.water_pipe.gor_raz','modals.premium.water_pipe.balloon_cran','modals.premium.water_pipe.pribor']
                 }
             },
             {
-                name: "Bronze_valve114",
+                name: "Cylinder140",
                 headerText:'modals.premium.hot_connect.name',
                 list:{
                     title:'Состав:',
                     items:['modals.premium.hot_connect.collector','modals.premium.hot_connect.ballon_cran','modals.premium.hot_connect.balance']
                 }
             },
-
             {
-                name: "Plane110",
+                name: "Cube009",
+                headerText:'modals.premium.electro_door',
+            },
+            {
+                name: "Text028",
                 headerText:'modals.premium.floor.name',
                 list:{
                     title:'Состав:',
                     items:['modals.premium.floor.plita','modals.premium.floor.acoust','modals.premium.floor.polit','modals.premium.floor.fibro']
+                },
+                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3'
+            },
+            {
+                name: "Text036",
+                headerText:'modals.premium.electro_way',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.electro_shield','modals.premium.control_shield']
                 }
             },
             {
-                name: "Cylinder341",
-                headerText:'modals.premium.chkaf',
-            },
-            {
-                name: "Text095",
+                name: "Text033",
                 headerText:'modals.premium.acoustic.name',
                 list:{
                     title:'Состав:',
-                    items:['modals.premium.acoustic.gips','modals.premium.acoustic.kirpich']
-                }
+                    items:['modals.premium.acoustic.gips','modals.premium.acoustic.kirpich','modals.premium.acoustic.gips']
+                },
+                audio:'Acoustic_Pro_Yugov_VO_270125.mp3'
+            },
+            {
+                name: "Cube017",
+                headerText:'modals.premium.radiator',
+            },
+            {
+                name: "Cube018_1",
+                headerText:'modals.premium.block',
+            },
+            {
+                name: "Cube019_1",
+                headerText:'modals.premium.domo_phone.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.premium.domo_phone.abonement','modals.premium.domo_phone.display','modals.premium.domo_phone.camera','modals.premium.domo_phone.ohrana']
+                },
             },
             // {
             //     name: "Text028",
@@ -158,11 +184,11 @@ const ModalsInRooms:ModalData[]=[
         linkAR:'https://newq.me/BI/GROUP/3.php',
         modals:[
             {
-                name: "Plane092_2",
+                name: "Plane050_1",
                 headerText: 'modals.business.ip_video_phone',
             },
             {
-                name: "Bronze_valve082",
+                name: "Circle025",
                 headerText:'modals.business.water_pipe.name',
                 list:{
                     title:'Состав:',
@@ -170,7 +196,7 @@ const ModalsInRooms:ModalData[]=[
                 }
             },
             {
-                name: "Bronze_valve092",
+                name: "Bronze_valve035",
                 headerText:'modals.business.hot_connect.name',
                 list:{
                     title:'Состав:',
@@ -178,21 +204,56 @@ const ModalsInRooms:ModalData[]=[
                 }
             },
             {
-                name: "Cube128",
+                name: "Cube052",
                 headerText:'modals.business.electro_door',
             },
             {
-                name: "Text070",
+                name: "Text010",
                 headerText:'modals.business.floor.name',
                 list:{
                     title:'Состав:',
                     items:['modals.business.floor.plita','modals.business.floor.acoust','modals.business.floor.polit','modals.business.floor.fibro']
+                },
+                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3'
+            },
+            {
+                name: "Text007",
+                headerText:'',
+                list: {
+                    title:'Состав:',
+                    items:['modals.business.chkaf','modals.business.electro_shield']
                 }
             },
             {
-                name: "Text068",
-                headerText:'modals.business.chkaf',
+                name: "Text015",
+                headerText:'modals.business.acoustic.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.business.acoustic.gips','modals.business.acoustic.plita','modals.business.acoustic.gaz','modals.business.acoustic.plita','modals.business.acoustic.gips']
+                },
+                audio:'Acoustic_Pro_Yugov_VO_270125.mp3'
             },
+            {
+                name: "Cube083",
+                headerText:'modals.business.alumni_window',
+            },
+            {
+                name: "Cube076",
+                headerText:'modals.business.radiator',
+            },
+            {
+                name: "Cube018_1",
+                headerText:'modals.business.block',
+            },
+            {
+                name: "Cube019_1",
+                headerText:'modals.business.domo_phone.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.business.domo_phone.abonement','modals.business.domo_phone.display','modals.business.domo_phone.camera','modals.business.domo_phone.ohrana']
+                },
+            },
+
             // {
             //     name: "Text010",
             //     headerText:'Плавающий пол',
@@ -286,11 +347,11 @@ const ModalsInRooms:ModalData[]=[
         linkAR:'https://newq.me/BI/GROUP/2.php',
         modals:[
             {
-                name: "Plane019",
+                name: "Plane027_1",
                 headerText: 'modals.comfort.ip_video_phone',
             },
             {
-                name: "Circle002",
+                name: "Circle010",
                 headerText:'modals.comfort.water_pipe.name',
                 list:{
                     title:'Состав:',
@@ -310,17 +371,40 @@ const ModalsInRooms:ModalData[]=[
                 headerText:'modals.comfort.electro_door',
             },
             {
-                name: "Plane001",
+                name: "Text004",
                 headerText:'modals.comfort.floor.name',
                 list:{
                     title:'Состав:',
                     items:['modals.comfort.floor.plita','modals.comfort.floor.acoust','modals.comfort.floor.polit','modals.comfort.floor.fibro']
+                },
+                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3'
+            },
+            {
+                name: "Text001",
+                headerText:'',
+                list: {
+                    title:'Состав:',
+                    items:['modals.comfort.chkaf','modals.comfort.electro_shield']
                 }
             },
             {
-                name: "Text002",
-                headerText:'modals.comfort.chkaf',
+                name: "Text060",
+                headerText:'modals.comfort.acoustic.name',
+                list:{
+                    title:'Состав:',
+                    items:['modals.comfort.acoustic.gips','modals.comfort.acoustic.plita','modals.comfort.acoustic.gaz','modals.comfort.acoustic.plita','modals.comfort.acoustic.gips']
+                },
+                audio:'Acoustic_Pro_Yugov_VO_270125.mp3'
             },
+            {
+                name: "Cube029",
+                headerText:'modals.comfort.bio_radiator',
+            },
+            {
+                name: "Plane017_1",
+                headerText:'modals.comfort.block',
+            },
+
             // {
             //     name: "Text004",
             //     headerText:'Плавающий пол',
@@ -413,8 +497,12 @@ const ModalsInRooms:ModalData[]=[
         linkAR:'https://newq.me/BI/GROUP/1.php',
         modals:[
             {
-                name: "Plane071",
-                headerText: 'modals.standard.ip_video_phone',
+                name: "Plane069_1",
+                headerText: '',
+                list:{
+                    title:'Состав:',
+                    items:['modals.standard.talk','modals.standard.ip_video_phone']
+                }
             },
             {
                 name: "Circle043",
@@ -442,23 +530,34 @@ const ModalsInRooms:ModalData[]=[
                 list:{
                     title:'Состав:',
                     items:['modals.standard.floor.plita','modals.standard.floor.chum','modals.standard.floor.fibro']
-                }
+                },
+                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3'
             },
+
             {
                 name: "Text057",
-                headerText:'modals.standard.chkaf',
+                headerText:'',
+                list: {
+                    title:'Состав:',
+                    items:['modals.standard.chkaf','modals.standard.electro_shield']
+                }
             },
             {
                 name: "Cube094",
                 headerText:'modals.standard.peregorodka_acoustic.name',
                 list:{
                     title:'Состав:',
-                    items:['modals.standard.peregorodka_acoustic.gips','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gaz']
-                }
+                    items:['modals.standard.peregorodka_acoustic.gips','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gaz','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gips']
+                },
+                audio:'Acoustic_Pro_Yugov_VO_270125.mp3'
             },
             {
                 name: "HEAT_3",
-                headerText:'modals.standard.steel_radiator',
+                headerText:'modals.standard.bio_radiator',
+            },
+            {
+                name: "Plane058",
+                headerText:'modals.standard.block',
             },
             // {
             //     name: "Plane071",

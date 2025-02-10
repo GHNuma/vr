@@ -7,14 +7,14 @@ import { EachModal } from '../pages/tech-room/const/modals/in_room.tsx';
 interface InteractiveObjectProps {
     position: [number, number, number];
     data: EachModal;
-    linkAR: string;
+    linkAR?: string;
     toggleAnimation?: () => void;
 
 }
 
 const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, linkAR, toggleAnimation, animationState }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const { headerText, list, text } = data;
+    const { headerText, list, text,audio } = data;
     const sphereRef = useRef<THREE.Mesh>(null);
     const outlineRef = useRef<THREE.Mesh>(null);
     const [hovered, setHovered] = useState(false);
@@ -114,16 +114,16 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, l
                         </div>
                         <div className="flex flex-col gap-2 py-2.5 px-1 bg-white bg-opacity-15 rounded-lg border-2 border-solid border-white">
                             {/* Аудио кнопка */}
-                            <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
+                            {audio && <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
                                 {isPlaying ? (
                                     <span className="material-symbols-outlined">volume_off</span>
                                 ) : (
                                     <span className="material-symbols-outlined">volume_up</span>
                                 )}
-                            </button>
+                            </button>}
 
                             {/* AR кнопка */}
-                            <div onClick={handleNavigation} style={{ cursor: 'pointer' }}>
+                            <div onClick={handleNavigation} style={{cursor: 'pointer'}}>
                                 <span className="material-symbols-outlined">view_in_ar</span>
                             </div>
 
@@ -135,7 +135,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, l
                             )}
                         </div>
 
-                        <audio ref={audioRef} src="/audios/example.wav" />
+                        {audio && <audio ref={audioRef} src={`/audios/${audio}`}/>}
                     </div>
                 </Html>
             )}

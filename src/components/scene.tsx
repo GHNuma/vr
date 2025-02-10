@@ -20,7 +20,7 @@ const Scene: React.FC = () => {
     const { i18n } = useTranslation();
 
     const [activeKey, setActiveKey] = useState<string | null>(null);
-    // const [activeMouse, setActiveMouse] = useState<string | null>(null);
+    const [activeMouse, setActiveMouse] = useState<string | null>(null);
 
     useEffect(() => {
         function handleWindowSizeChange() {
@@ -43,24 +43,24 @@ const Scene: React.FC = () => {
                 setActiveKey(null);
             }
         }
-        // function handleMouseDown(e: MouseEvent) {
-        //     if (e.button === 0) setActiveMouse("left");
-        //     if (e.button === 2) setActiveMouse("right");
-        // }
-        // function handleMouseUp() {
-        //     setActiveMouse(null);
-        // }
+        function handleMouseDown(e: MouseEvent) {
+            if (e.button === 0) setActiveMouse("left");
+            if (e.button === 2) setActiveMouse("right");
+        }
+        function handleMouseUp() {
+            setActiveMouse(null);
+        }
 
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
-        // window.addEventListener("mousedown", handleMouseDown);
-        // window.addEventListener("mouseup", handleMouseUp);
+        window.addEventListener("mousedown", handleMouseDown);
+        window.addEventListener("mouseup", handleMouseUp);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("keyup", handleKeyUp);
-            // window.removeEventListener("mousedown", handleMouseDown);
-            // window.removeEventListener("mouseup", handleMouseUp);
+            window.removeEventListener("mousedown", handleMouseDown);
+            window.removeEventListener("mouseup", handleMouseUp);
         };
     }, []);
 
@@ -211,6 +211,43 @@ const Scene: React.FC = () => {
                                 <p>D</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            )}
+            {!isMobile && (
+                <div className="fixed bottom-10 right-10 flex items-center justify-center">
+                    <div className="relative w-24 h-24">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 100 100"
+                            className="w-full h-full"
+                        >
+                            {/* Mouse Body */}
+                            <path
+                                id="mouse-body"
+                                d="M10 20c0-5.5 4.5-10 10-10h60c5.5 0 10 4.5 10 10v60c0 5.5-4.5 10-10 10H20c-5.5 0-10-4.5-10-10V20z"
+                                fill="#e0e0e0"
+                                stroke="#b0b0b0"
+                                strokeWidth="2"
+                            />
+                            {/* Left Button */}
+                            <path
+                                id="mouse-left"
+                                d="M15 25c0-2.2 1.8-4 4-4h22c2.2 0 4 1.8 4 4v20c0 2.2-1.8 4-4 4H19c-2.2 0-4-1.8-4-4V25z"
+                                fill={activeMouse === "left" ? "rgba(255, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.8)"}
+                                stroke="#b0b0b0"
+                                strokeWidth="2"
+                            />
+                            {/* Right Button */}
+                            <path
+                                id="mouse-right"
+                                d="M55 25c0-2.2 1.8-4 4-4h22c2.2 0 4 1.8 4 4v20c0 2.2-1.8 4-4 4H59c-2.2 0-4-1.8-4-4V25z"
+                                fill={activeMouse === "right" ? "rgba(255, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.8)"}
+                                stroke="#b0b0b0"
+                                strokeWidth="2"
+                            />
+
+                        </svg>
                     </div>
                 </div>
             )}

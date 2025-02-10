@@ -26,8 +26,8 @@ export function PremiumModel(props: PremiumModelProps) {
     const { nodes } = useGLTF("/models/PREMIUM.glb") as unknown as GLTFResult;
     const { t } = useTranslation();
 
-    const doorAnimation = useGLTF("/animations/PREMIUM_DOOR.glb");
-    const { scene: doorScene } = doorAnimation;
+    // const doorAnimation = useGLTF("/animations/PREMIUM_DOOR.glb");
+    // const { scene: doorScene } = doorAnimation;
 
 
     const doorRef = useRef<DoorHandle>(null);
@@ -38,22 +38,22 @@ export function PremiumModel(props: PremiumModelProps) {
 
 
     const doorPosition = new THREE.Vector3();
-    doorScene.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-            child.updateMatrixWorld();
-            child.getWorldPosition(doorPosition);
-        }
-    });
+    // doorScene.traverse((child) => {
+    //     if (child instanceof THREE.Mesh) {
+    //         child.updateMatrixWorld();
+    //         child.getWorldPosition(doorPosition);
+    //     }
+    // });
 
-    const calculateDoorWidth = (object: THREE.Object3D): number => {
-        const box = new THREE.Box3();
-        box.setFromObject(object);
-
-        const size = new THREE.Vector3();
-        box.getSize(size);
-
-        return size.x;
-    };
+    // const calculateDoorWidth = (object: THREE.Object3D): number => {
+    //     const box = new THREE.Box3();
+    //     box.setFromObject(object);
+    //
+    //     const size = new THREE.Vector3();
+    //     box.getSize(size);
+    //
+    //     return size.x;
+    // };
 
     const currentRoomData = ModalsInRooms.find((roomData) => roomData.name === "PREMIUM");
 
@@ -70,19 +70,19 @@ export function PremiumModel(props: PremiumModelProps) {
                 return null;
             })}
 
-            <group>
-                <Door doorScene={doorScene} ref={doorRef}
-                      pivotOffset={[(doorPosition.x), doorPosition.y, doorPosition.z+(2* calculateDoorWidth(doorScene))]}
-                />
-            </group>
+            {/*<group>*/}
+            {/*    <Door doorScene={doorScene} ref={doorRef}*/}
+            {/*          pivotOffset={[(doorPosition.x), doorPosition.y, doorPosition.z+(2* calculateDoorWidth(doorScene))]}*/}
+            {/*    />*/}
+            {/*</group>*/}
 
             <InteractiveObject
                 position={[doorPosition.x + 0.1, doorPosition.y, doorPosition.z]}
                 data={{
-                    name: "Cube009",
+                    name: "DOOR_INS",
                     headerText: t("modals.premium.electro_door"),
                 }}
-                linkAR="https://example.com"
+                // linkAR="https://example.com"
                 toggleAnimation={toggleDoor}
             />
         </group>
