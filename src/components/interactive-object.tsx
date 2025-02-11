@@ -12,9 +12,9 @@ interface InteractiveObjectProps {
 
 }
 
-const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, linkAR, toggleAnimation, animationState }) => {
+const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const { headerText, list, text,audio } = data;
+    const { headerText, list, text,audio,ARLink } = data;
     const sphereRef = useRef<THREE.Mesh>(null);
     const outlineRef = useRef<THREE.Mesh>(null);
     const [hovered, setHovered] = useState(false);
@@ -50,7 +50,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, l
     };
 
     const handleNavigation = () => {
-        window.open(linkAR, '_blank', 'noopener,noreferrer');
+        window.open(ARLink, '_blank', 'noopener,noreferrer');
     };
 
     return (
@@ -112,30 +112,34 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data, l
                                 </div>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2 py-2.5 px-1 bg-white bg-opacity-15 rounded-lg border-2 border-solid border-white">
+                        {(audio || ARLink) && <div
+                            className="flex flex-col gap-2 py-2.5 px-1 bg-white bg-opacity-15 rounded-lg border-2 border-solid border-white">
                             {/* Аудио кнопка */}
-                            {audio && <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
-                                {isPlaying ? (
-                                    <span className="material-symbols-outlined">volume_off</span>
-                                ) : (
-                                    <span className="material-symbols-outlined">volume_up</span>
-                                )}
-                            </button>}
+                            {audio && <div>
+                                <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
+                                    {isPlaying ? (
+                                        <span className="material-symbols-outlined">volume_off</span>
+                                    ) : (
+                                        <span className="material-symbols-outlined">volume_up</span>
+                                    )}
+                                </button>
+                                {audio && <audio ref={audioRef} src={`/audios/${audio}`}/>}
+                            </div>
+                            }
 
                             {/* AR кнопка */}
-                            <div onClick={handleNavigation} style={{cursor: 'pointer'}}>
+                            {ARLink && <div onClick={handleNavigation} style={{cursor: 'pointer'}}>
                                 <span className="material-symbols-outlined">view_in_ar</span>
-                            </div>
+                            </div>}
 
-                            {/* Кнопка анимации */}
-                            {toggleAnimation && (
-                                <button onClick={toggleAnimation}>
-                                        <span className="material-symbols-outlined">motion_play</span>
-                                </button>
-                            )}
-                        </div>
+                            {/*/!* Кнопка анимации *!/*/}
+                            {/*{toggleAnimation && (*/}
+                            {/*    <button onClick={toggleAnimation}>*/}
+                            {/*    <span className="material-symbols-outlined">motion_play</span>*/}
+                            {/*    </button>*/}
+                            {/*)}*/}
+                        </div>}
 
-                        {audio && <audio ref={audioRef} src={`/audios/${audio}`}/>}
                     </div>
                 </Html>
             )}
