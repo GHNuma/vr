@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
@@ -55,6 +55,12 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data })
         window.open(ARLink, '_blank', 'noopener,noreferrer');
     };
 
+    useEffect(() => {
+        if(!audioRef?.current?.paused){
+            setIsPlaying(false);
+
+        }
+    }, [i18n.language]);
     return (
         <mesh position={newPosition} ref={sphereRef} scale={!hovered ? [0.2, 0.2, 0.2] : [0.3, 0.3, 0.3]}>
             <sphereGeometry args={[0.09, 32, 32]} />
