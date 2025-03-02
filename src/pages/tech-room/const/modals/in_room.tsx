@@ -6,7 +6,8 @@ export interface ModalData {
 }
 export interface EachModal {
     name: string;
-    audio?:string
+    audio_ru?:string
+    audio_kz?:string
     ARLink?:string
     headerText?: string;
     text?: string;
@@ -51,7 +52,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.premium.floor.plita','modals.premium.floor.acoust','modals.premium.floor.polit','modals.premium.floor.fibro']
                 },
-                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Plav pol_kaz.mp3',
                 ARLink: 'https://newq.me/BI/GROUP/6.php'
             },
             {
@@ -69,7 +71,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.premium.acoustic.gips','modals.premium.acoustic.kirpich','modals.premium.acoustic.gips']
                 },
-                audio:'Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Acoustic Pro_kaz.mp3',
                 ARLink:'https://newq.me/BI/GROUP/5.php'
             },
             {
@@ -217,7 +220,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.business.floor.plita','modals.business.floor.acoust','modals.business.floor.polit','modals.business.floor.fibro']
                 },
-                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Plav pol_kaz.mp3',
                 ARLink: 'https://newq.me/BI/GROUP/6.php'
             },
             {
@@ -235,7 +239,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.business.acoustic.gips','modals.business.acoustic.plita','modals.business.acoustic.gaz','modals.business.acoustic.plita','modals.business.acoustic.gips']
                 },
-                audio:'Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Acoustic Pro_kaz.mp3',
                 ARLink:'https://newq.me/BI/GROUP/5.php'
 
             },
@@ -383,7 +388,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.comfort.floor.plita','modals.comfort.floor.acoust','modals.comfort.floor.polit','modals.comfort.floor.fibro']
                 },
-                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Plav pol_kaz.mp3',
                 ARLink: 'https://newq.me/BI/GROUP/6.php'
 
             },
@@ -402,7 +408,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.comfort.acoustic.gips','modals.comfort.acoustic.plita','modals.comfort.acoustic.gaz','modals.comfort.acoustic.plita','modals.comfort.acoustic.gips']
                 },
-                audio:'Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Acoustic Pro_kaz.mp3',
                 ARLink:'https://newq.me/BI/GROUP/5.php'
 
             },
@@ -541,7 +548,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.standard.floor.plita','modals.standard.floor.chum','modals.standard.floor.fibro']
                 },
-                audio:'Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Plavayushiy_Pol_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Plav pol_kaz.mp3',
                 ARLink: 'https://newq.me/BI/GROUP/6.php'
             },
 
@@ -560,7 +568,8 @@ const ModalsInRooms:ModalData[]=[
                     title:'Состав:',
                     items:['modals.standard.peregorodka_acoustic.gips','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gaz','modals.standard.peregorodka_acoustic.plita','modals.standard.peregorodka_acoustic.gips']
                 },
-                audio:'Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_ru:'ru/Acoustic_Pro_Yugov_VO_270125.mp3',
+                audio_kz:'kz/Acoustic Pro_kaz.mp3',
                 ARLink:'https://newq.me/BI/GROUP/5.php'
 
             },

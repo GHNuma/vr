@@ -3,6 +3,7 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { EachModal } from '../pages/tech-room/const/modals/in_room.tsx';
+import {useTranslation} from "react-i18next";
 
 interface InteractiveObjectProps {
     position: [number, number, number];
@@ -14,10 +15,11 @@ interface InteractiveObjectProps {
 
 const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const { headerText, list, text,audio,ARLink } = data;
+    const { headerText, list, text,audio_ru,audio_kz,ARLink } = data;
     const sphereRef = useRef<THREE.Mesh>(null);
     const outlineRef = useRef<THREE.Mesh>(null);
     const [hovered, setHovered] = useState(false);
+    const {i18n}=useTranslation()
     const newPosition: [number, number, number] = [position[0], position[1] + 0.09, position[2]];
 
     // Обновляем размер или эффект на контуре при наведении
@@ -112,10 +114,10 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data })
                                 </div>
                             )}
                         </div>
-                        {(audio || ARLink) && <div
+                        {((audio_ru && audio_kz) || ARLink) && <div
                             className="flex flex-col gap-2 py-2.5 px-1 bg-white bg-opacity-15 rounded-lg border-2 border-solid border-white">
                             {/* Аудио кнопка */}
-                            {audio && <div>
+                            {(audio_ru && audio_kz) && <div>
                                 <button onClick={(e) => toggleAudio(e)} onTouchStart={(e) => toggleAudio(e)}>
                                     {isPlaying ? (
                                         <span className="material-symbols-outlined">volume_off</span>
@@ -123,7 +125,7 @@ const InteractiveObject: React.FC<InteractiveObjectProps> = ({ position, data })
                                         <span className="material-symbols-outlined">volume_up</span>
                                     )}
                                 </button>
-                                {audio && <audio ref={audioRef} src={`/audios/${audio}`}/>}
+                                {(audio_ru && audio_kz) && <audio ref={audioRef} src={`/audios/${i18n.language==='kz' ? audio_kz : audio_ru}`}/>}
                             </div>
                             }
 
